@@ -127,5 +127,9 @@ otra configuración y otro permiso del token para el mismo resultado.
 se creó en Pages (`--force`, solo esa vez) para mantener la dirección `gymlaslomas.pages.dev` del QR.
 Los deploys siguientes van directo a Pages sin `--force`.
 
+**D-12 · Cloudflare Web Analytics.** Activado desde el panel de Pages (2026-10-09). Cloudflare inserta su script
+al publicar. No usa cookies ni identifica personas: cuenta visitas, dispositivos y procedencia (cumple RN-02).
+No mide qué ejercicio se abre ni qué se busca, porque las rutas van por hash. Eso queda para la v1.1 (ver roadmap).
+
 **D-07 · Sin service worker en la v1.** Cachear videos offline complica las actualizaciones y ocupa
 espacio en el celular del socio. Queda en el roadmap.

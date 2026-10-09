@@ -16,7 +16,8 @@
 
 - ~~Resaltado de coincidencias, "¿Quisiste decir…?", cámara lenta, indicador de carga~~ (hecho)
 - Sinónimos de búsqueda (por ejemplo "pecho plano" → "Press de banca plano"), cargados desde un archivo simple
-- Estadísticas anónimas de uso (Cloudflare Web Analytics, sin cookies) para saber qué ejercicios se buscan y no existen
+- [x] Cloudflare Web Analytics activado: visitas, dispositivos, procedencia (2026-10-09)
+- Estadísticas anónimas propias: ejercicios más vistos y búsquedas sin resultado (para saber qué grabar o renombrar)
 - Iconos PNG para "agregar a inicio" en iPhone
 
 ## v2: Rutinas
