@@ -33,11 +33,15 @@ y la URL de destino. **Pedí confirmación explícita antes de hacer el deploy.*
 ## 3. Deploy
 
 ```bash
-npx wrangler pages deploy dist --project-name <proyecto>
+set -a && . ./.env && set +a   # credenciales de Cloudflare (nunca mostrarlas ni imprimirlas)
+npx wrangler pages deploy dist --project-name gymlaslomas --branch main --commit-hash "$(git rev-parse HEAD)"
 ```
 
-El nombre del proyecto sale de lo que haya indicado el usuario o de una publicación anterior; si no lo sabés, preguntalo.
-Si wrangler no está autenticado, indicale al usuario: `! npx wrangler login`.
+- Proyecto: `gymlaslomas` → https://gymlaslomas.pages.dev. **No usar `--force`**: el proyecto ya existe en Pages (D-11).
+- Las credenciales están en `.env` (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`). Si faltan, guiá al usuario para
+  crear el token (ver `.env.example`) y pedile que lo pegue **él** en `.env`: el token nunca se pega en el chat.
+- Al verificar, esperá unos segundos: justo después del deploy, algunos servidores de Cloudflare todavía sirven la versión anterior.
+- Verificá que los videos respondan 206 a `Range: bytes=0-1` (si no, no se reproducen en iPhone, D-10).
 
 ## 4. Verificación posterior
 

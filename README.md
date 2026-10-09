@@ -1,4 +1,6 @@
-# Las Lomas Gym · Biblioteca de ejercicios
+# Gym Las Lomas · Biblioteca de ejercicios
+
+**🌐 En producción: https://gymlaslomas.pages.dev**
 
 Web app para que los socios escaneen un QR en la pared y vean el video de cualquier ejercicio de su rutina.
 Sin login, sin instalar nada: abre en el navegador del celular.
@@ -79,33 +81,25 @@ y una miniatura `.jpg` de cada ejercicio, respetando las subcarpetas. Si lo volv
 
 ## Publicar
 
-`npm run build` genera la carpeta `dist/` lista para subir a cualquier hosting estático.
-
-### Opción A: todo en Cloudflare Pages (simple, gratis)
-
-Con `COPY_VIDEOS=1` y `VIDEO_BASE_URL="/videos/"` en `.env`, los videos se copian dentro de `dist/`.
+La web está en **Cloudflare Pages**, proyecto `gymlaslomas` → https://gymlaslomas.pages.dev
 
 ```bash
-npm run build
-npx wrangler pages deploy dist --project-name laslomasgym
+npm run build                      # catálogo estricto + typecheck + build, copia los videos a dist/
+set -a && . ./.env && set +a       # carga CLOUDFLARE_API_TOKEN y CLOUDFLARE_ACCOUNT_ID
+npx wrangler pages deploy dist --project-name gymlaslomas --branch main
 ```
 
-Queda en `https://laslomasgym.pages.dev`. Límites del plan gratuito: hasta **25 MB por archivo**
-y 20.000 archivos. Con los videos comprimidos (`npm run optimize`) normalmente alcanza.
+O, desde Claude Code: `/publicar`.
 
-### Opción B: web en Pages + videos en Cloudflare R2 (si tenés muchos videos o muy pesados)
+- Solo se suben los archivos que cambiaron, así que agregar videos tarda segundos o minutos.
+- La función `functions/videos/[[path]].ts` hace que los videos se puedan pedir por partes, sin lo cual no se reproducen en iPhone (D-10).
+- Credenciales: si `npx wrangler login` no funciona (pasa en WSL), usá un token con el permiso `Cloudflare Pages · Edit` en `.env` (ver `.env.example`).
+- Para volver a una versión anterior: panel de Cloudflare → Workers & Pages → gymlaslomas → Deployments → *Rollback*.
 
-R2 da 10 GB gratis y no cobra por el tráfico, que es lo que más se consume con video.
+### Dominio propio (opcional)
 
-1. Creá un bucket R2 y activale el acceso público (o asignale un dominio tipo `videos.laslomasgym.com`).
-2. Subí la carpeta de videos al bucket (con `rclone sync` o desde el panel de Cloudflare).
-3. En `.env`: `COPY_VIDEOS=0` y `VIDEO_BASE_URL="https://videos.laslomasgym.com/"`.
-4. `npm run build` y deploy de `dist/` como en la opción A.
-
-### Dominio propio
-
-Desde el panel de Cloudflare Pages → *Custom domains* podés usar algo como `ejercicios.laslomasgym.com`.
-**Definí la URL final antes de imprimir el QR**: si después cambia, hay que reimprimir los carteles.
+Desde el panel de Cloudflare Pages → *Custom domains* se puede sumar algo como `ejercicios.gymlaslomas.com.ar`.
+`gymlaslomas.pages.dev` sigue funcionando igual, así que los QR ya impresos no se rompen.
 
 ## El QR y el cartel
 

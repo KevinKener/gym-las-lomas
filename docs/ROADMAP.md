@@ -8,7 +8,7 @@
 - [x] Compresión de videos y miniaturas
 - [x] Generador de QR y cartel A4
 - [x] Cargar los videos reales del gym (190 ejercicios, 8 categorías)
-- [ ] Definir URL definitiva y publicar
+- [x] Definir URL definitiva y publicar → https://gymlaslomas.pages.dev (2026-10-09)
 - [ ] Imprimir y pegar carteles
 - [ ] Prueba con 5 socios reales y ajustar nombres según lo que escriben
 
