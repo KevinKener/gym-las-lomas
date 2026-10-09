@@ -196,5 +196,5 @@ El repo incluye configuración para [Claude Code](https://claude.com/claude-code
 
 ## Licencia
 
-Software privado desarrollado para **Gym Las Lomas**. Todos los derechos reservados: ver [LICENSE](LICENSE).
-Los videos, el logo y la marca pertenecen a Gym Las Lomas y no forman parte de este repositorio.
+Desarrollado para **Gym Las Lomas**. El código se publica para consulta: todos los derechos reservados, ver [LICENSE](LICENSE).
+El logo, la marca y las imágenes de los videos pertenecen a Gym Las Lomas y se muestran con su autorización.
