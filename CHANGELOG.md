@@ -2,7 +2,9 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
-## [Sin publicar]
+## [1.0.2] - 2026-10-09
+
+189 ejercicios en 8 categorías.
 
 ### Cambiado
 - "Peso muerto asimétrico con mancuernas": queda una sola versión (la segunda toma, del 07/05).
