@@ -2,6 +2,15 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [1.0.4] - 2026-10-09
+
+187 ejercicios en 8 categorías.
+
+### Cambiado
+- "Peso muerto con mancuernas": queda una sola versión (la segunda toma, del 07/05).
+- "Movilidad de tobillo piso": queda una sola versión (la original).
+- La segunda toma de "Movilidad de hombros bastón" pasa a ser un ejercicio propio: "Movilidad de hombros meñique pulgar".
+
 ## [1.0.3] - 2026-10-09
 
 189 ejercicios en 8 categorías.

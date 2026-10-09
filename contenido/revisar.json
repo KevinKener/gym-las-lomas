@@ -1,17 +1,5 @@
 {
   "_info": "Videos publicados pero pendientes de revisión con el profe (RN-06). 'nombre' es opcional: es lo que ve el socio. Cuando se resuelva uno, borralo de esta lista.",
-  "movilidad de hombros bastón (2)": {
-    "nombre": "Movilidad de hombros bastón (toma 2)",
-    "motivo": "Dos tomas grabadas con 1 minuto de diferencia y la misma duración (10 s). Elegir la mejor."
-  },
-  "movilidad de tobillo piso (2)": {
-    "nombre": "Movilidad de tobillo piso (toma 2)",
-    "motivo": "Dos tomas grabadas el mismo minuto (10,9 s y 9,8 s). Elegir la mejor."
-  },
-  "peso muerto con mancuernas (2)": {
-    "nombre": "Peso muerto con mancuernas (toma 2)",
-    "motivo": "Grabado una semana después que el original (07/05 vs 30/04). ¿Regrabación o variante distinta?"
-  },
   "nórdico negativo (2)": {
     "nombre": "Nórdico negativo",
     "motivo": "Es el único 'nórdico negativo': probablemente solo sobra el (2) del nombre del archivo."
