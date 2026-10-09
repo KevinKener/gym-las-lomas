@@ -6,6 +6,7 @@ Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Change
 
 ### Agregado
 - Cloudflare Web Analytics (anónimo, sin cookies).
+- Repositorio documentado para GitHub: README con capturas, CI (typecheck + tests), licencia privada.
 
 ## [1.0.0] - 2026-10-09
 

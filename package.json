@@ -1,8 +1,15 @@
 {
-  "name": "las-lomas-gym",
-  "version": "1.0.0",
+  "name": "gym-las-lomas",
+  "version": "1.0.1",
   "private": true,
-  "description": "Biblioteca de ejercicios en video de Las Lomas Gym. Se accede escaneando un QR, sin login.",
+  "description": "Biblioteca de ejercicios en video de Gym Las Lomas. Se accede escaneando un QR, sin login.",
+  "homepage": "https://gymlaslomas.pages.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KevinKener/gym-las-lomas.git"
+  },
+  "license": "UNLICENSED",
+  "author": "KevinKener",
   "type": "module",
   "engines": {
     "node": ">=20.12"
