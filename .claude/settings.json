@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev)",
+      "Bash(npm run check)",
+      "Bash(npm run typecheck)",
+      "Bash(npm test)",
+      "Bash(npm test *)",
+      "Bash(npm run catalog)",
+      "Bash(npm run catalog *)",
+      "Bash(npm run build)",
+      "Bash(npm run preview)",
+      "Bash(npm run qr *)",
+      "Bash(node --test *)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(ffprobe *)"
+    ],
+    "ask": [
+      "Bash(npm install *)",
+      "Bash(npm run optimize *)",
+      "Bash(npx wrangler *)",
+      "Bash(wrangler *)",
+      "Bash(rclone *)",
+      "Bash(git push *)",
+      "Bash(git commit *)"
+    ],
+    "deny": [
+      "Bash(rm -rf /mnt/*)",
+      "Bash(rm -r /mnt/*)",
+      "Bash(git push --force *)",
+      "Edit(./public/catalog.json)",
+      "Write(./public/catalog.json)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/check.mjs",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}

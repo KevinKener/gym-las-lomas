@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+public/catalog.json
+qr/
+videos/
+media/
+*.log
+.gstack/
+.claude/settings.local.json
