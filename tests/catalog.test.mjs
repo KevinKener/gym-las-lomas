@@ -144,3 +144,20 @@ test('RN-07: las categorías siguen el orden de categorias.json; las que no figu
   );
   assert.deepEqual(categories, ['Espalda', 'Core', 'Abdomen', 'Brazos']);
 });
+
+test('D-13: rev cambia si se reemplaza el video o la miniatura con el mismo nombre', () => {
+  const rev = (videoHash, posterHash) =>
+    buildCatalog([
+      { path: 'Remo.mp4', size: MB, hash: videoHash },
+      ...(posterHash ? [{ path: 'Remo.jpg', size: 1, hash: posterHash }] : []),
+    ]).exercises[0].rev;
+  assert.match(rev('aaa', 'bbb'), /^[0-9a-f]{10}$/);
+  assert.equal(rev('aaa', 'bbb'), rev('aaa', 'bbb'));
+  assert.notEqual(rev('aaa', 'bbb'), rev('ccc', 'bbb'));
+  assert.notEqual(rev('aaa', 'bbb'), rev('aaa', 'ddd'));
+  assert.notEqual(rev('aaa', 'bbb'), rev('aaa'));
+});
+
+test('D-13: sin hash no hay rev (la URL queda sin ?v=)', () => {
+  assert.equal(buildCatalog([file('Remo.mp4')]).exercises[0].rev, null);
+});

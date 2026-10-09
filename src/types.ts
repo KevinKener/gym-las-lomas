@@ -6,6 +6,8 @@ export interface Exercise {
   src: string;
   poster: string | null;
   size: number;
+  /** Versión del contenido (video + miniatura). Se agrega como ?v= para no mostrar uno viejo guardado. */
+  rev: string | null;
 }
 
 export interface Catalog {

@@ -74,9 +74,10 @@ let mutedBeforeSlow = false;
 const escapeHtml = (s: string) =>
   s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
-function mediaUrl(rel: string): string {
+function mediaUrl(rel: string, rev: string | null): string {
   const base = catalog.videoBaseUrl.endsWith('/') ? catalog.videoBaseUrl : `${catalog.videoBaseUrl}/`;
-  return base + rel.split('/').map(encodeURIComponent).join('/');
+  // ?v= cambia si se reemplaza el video: el celular baja el nuevo en vez de usar el guardado (D-13)
+  return base + rel.split('/').map(encodeURIComponent).join('/') + (rev ? `?v=${rev}` : '');
 }
 
 function storage<T>(key: string, fallback: T): T {
@@ -101,7 +102,7 @@ const PLAY_ICON =
 
 function thumb(ex: Exercise, className: string): string {
   return ex.poster
-    ? `<img class="${className}" src="${mediaUrl(ex.poster)}" alt="" loading="lazy" decoding="async">`
+    ? `<img class="${className}" src="${mediaUrl(ex.poster, ex.rev)}" alt="" loading="lazy" decoding="async">`
     : `<span class="${className} ${className}--empty">${PLAY_ICON}</span>`;
 }
 
@@ -141,7 +142,7 @@ function renderTiles() {
       return `
       <li>
         <a class="tile" href="#/c/${slug(category)}">
-          ${cover ? `<img class="tile-img" src="${mediaUrl(cover.poster!)}" alt="" loading="lazy" decoding="async">` : ''}
+          ${cover ? `<img class="tile-img" src="${mediaUrl(cover.poster!, cover.rev)}" alt="" loading="lazy" decoding="async">` : ''}
           <span class="tile-text">
             <span class="tile-name">${escapeHtml(category)}</span>
             <span class="tile-count">${items.length} ejercicios</span>
@@ -278,8 +279,8 @@ function showExercise(ex: Exercise) {
   ui.videoError.hidden = true;
   ui.video.hidden = false;
 
-  ui.video.poster = ex.poster ? mediaUrl(ex.poster) : '';
-  ui.video.src = mediaUrl(ex.src);
+  ui.video.poster = ex.poster ? mediaUrl(ex.poster, ex.rev) : '';
+  ui.video.src = mediaUrl(ex.src, ex.rev);
   applyPlaybackRate();
   ui.video.play().catch(() => {
     // Si el navegador bloquea el autoplay, el usuario toca play.

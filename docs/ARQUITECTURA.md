@@ -58,6 +58,7 @@ interface Catalog {
     src: string;                // ruta relativa a videoBaseUrl, con "/"
     poster: string | null;      // miniatura relativa a videoBaseUrl
     size: number;               // bytes
+    rev: string | null;         // versión del contenido (video + miniatura); va como ?v= en la URL (D-13)
   }[];                          // ordenados alfabéticamente (es)
 }
 ```
@@ -133,3 +134,8 @@ No mide qué ejercicio se abre ni qué se busca, porque las rutas van por hash. 
 
 **D-07 · Sin service worker en la v1.** Cachear videos offline complica las actualizaciones y ocupa
 espacio en el celular del socio. Queda en el roadmap.
+
+**D-13 · Versión del video en la URL.** Los videos se cachean 7 días en el celular. Si se reemplaza un video
+conservando el nombre (por ejemplo, al quedarse con una segunda toma), el socio seguiría viendo el viejo.
+El catálogo calcula un hash del contenido del video y de su miniatura, y la web lo agrega como `?v=<rev>`:
+si el contenido cambia, cambia la URL y el celular baja el nuevo. Si no cambia, se sigue usando lo guardado.

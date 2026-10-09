@@ -2,6 +2,14 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [1.0.3] - 2026-10-09
+
+189 ejercicios en 8 categorías.
+
+### Cambiado
+- Cuando se reemplaza un video manteniendo el nombre, los celulares muestran el nuevo enseguida
+  (antes podían seguir viendo el anterior hasta 7 días).
+
 ## [1.0.2] - 2026-10-09
 
 189 ejercicios en 8 categorías.

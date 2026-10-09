@@ -12,6 +12,8 @@
 //   npm run catalog -- --strict  -> además falla si hay advertencias (lo usa el build)
 
 import fs from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { loadEnv } from './env.mjs';
 import { buildCatalog } from './catalog-lib.mjs';
@@ -35,6 +37,17 @@ async function walk(dir) {
     else if (entry.isFile()) files.push(full);
   }
   return files;
+}
+
+/** Hash del contenido: cambia si se reemplaza un video aunque conserve el nombre (D-13). */
+function hashFile(file) {
+  return new Promise((resolve, reject) => {
+    const hash = createHash('sha1');
+    createReadStream(file)
+      .on('data', (chunk) => hash.update(chunk))
+      .on('end', () => resolve(hash.digest('hex')))
+      .on('error', reject);
+  });
 }
 
 /** Lee un JSON opcional de contenido/. Si no existe devuelve {}; si está mal escrito, corta. */
@@ -62,6 +75,7 @@ async function main() {
     (await walk(VIDEOS_DIR)).map(async (full) => ({
       path: path.relative(VIDEOS_DIR, full).split(path.sep).join('/'),
       size: (await fs.stat(full)).size,
+      hash: await hashFile(full),
     })),
   );
 

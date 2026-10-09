@@ -1,6 +1,8 @@
 // Reglas puras del catálogo (sin acceso a disco), para poder testearlas.
 // Ver docs/REGLAS-DE-NEGOCIO.md: RN-05 a RN-07 y RN-10.
 
+import { createHash } from 'node:crypto';
+
 export const VIDEO_EXTS = ['.mp4', '.m4v', '.webm', '.mov'];
 export const IMAGE_EXTS = ['.jpg', '.jpeg', '.png', '.webp'];
 
@@ -31,6 +33,15 @@ const extOf = (p) => {
   return dot > p.lastIndexOf('/') ? p.slice(dot).toLowerCase() : '';
 };
 const stripExt = (p) => p.slice(0, p.length - extOf(p).length);
+
+/**
+ * Versión corta del contenido del video y su miniatura. Va en la URL (?v=) para que, si se reemplaza
+ * un video con el mismo nombre, el celular no siga mostrando el viejo que tiene guardado (D-13).
+ */
+export function revision(video, poster) {
+  if (!video?.hash) return null;
+  return createHash('sha1').update(`${video.hash}:${poster?.hash ?? ''}`).digest('hex').slice(0, 10);
+}
 
 /**
  * RN-07: { "Pecho": ["press plano barra", ...] } -> Map(slug del nombre -> categoría).
@@ -66,7 +77,7 @@ function indexReview(reviewMap) {
 
 /**
  * Arma el catálogo a partir de la lista de archivos de la carpeta.
- * @param {{ path: string, size: number }[]} files rutas relativas con "/"
+ * @param {{ path: string, size: number, hash?: string }[]} files rutas relativas con "/" y hash del contenido
  * @param {Record<string, string[]>} [categoryMap] categorías para videos sin subcarpeta (contenido/categorias.json)
  * @param {Record<string, { nombre?: string, motivo: string }>} [reviewMap] videos pendientes de revisión (contenido/revisar.json)
  * @returns {{ categories: string[], exercises: object[], warnings: string[], pending: { name: string, file: string, motivo: string }[] }}
@@ -74,7 +85,7 @@ function indexReview(reviewMap) {
 export function buildCatalog(files, categoryMap = {}, reviewMap = {}) {
   const images = new Map();
   for (const f of files) {
-    if (IMAGE_EXTS.includes(extOf(f.path))) images.set(stripExt(f.path).toLowerCase(), f.path);
+    if (IMAGE_EXTS.includes(extOf(f.path))) images.set(stripExt(f.path).toLowerCase(), f);
   }
 
   const usedIds = new Set();
@@ -123,13 +134,15 @@ export function buildCatalog(files, categoryMap = {}, reviewMap = {}) {
     if (f.size > MAX_VIDEO_MB * 1024 * 1024)
       warnings.push(`${f.path}: pesa ${(f.size / 1024 / 1024).toFixed(0)} MB, el máximo es ${MAX_VIDEO_MB} MB (RN-10, npm run optimize).`);
 
+    const image = images.get(stripExt(f.path).toLowerCase());
     exercises.push({
       id,
       name,
       category,
       src: f.path,
-      poster: images.get(stripExt(f.path).toLowerCase()) ?? null,
+      poster: image?.path ?? null,
       size: f.size,
+      rev: revision(f, image),
     });
   }
 
