@@ -2,7 +2,15 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
-## [Sin publicar]
+## [1.0.0] - 2026-10-09
+
+Primera publicación en https://gymlaslomas.pages.dev · 190 ejercicios en 8 categorías.
+
+### Agregado
+- Soporte de pedidos parciales de video en Cloudflare Pages (necesario para reproducir en iPhone).
+- Página 404 con la marca.
+
+## Desarrollo previo a 1.0.0
 
 ### Agregado
 - Nuevo inicio: buscador, vistos recientemente y grupos musculares con foto. Ya no se muestran los 190 ejercicios de entrada;

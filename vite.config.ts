@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
+import { parseRange } from './src/range';
 
 const MIME: Record<string, string> = {
   '.mp4': 'video/mp4',
@@ -42,25 +43,21 @@ function videosFolder(dir: string, copyOnBuild: boolean): Plugin {
       res.setHeader('Accept-Ranges', 'bytes');
       res.setHeader('Content-Type', MIME[path.extname(file).toLowerCase()] ?? 'application/octet-stream');
 
-      const match = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range ?? '');
-      if (!match) {
+      if (!req.headers.range) {
         res.setHeader('Content-Length', stat.size);
         fs.createReadStream(file).pipe(res);
         return;
       }
-      let start = match[1] ? Number(match[1]) : stat.size - Number(match[2]);
-      let end = match[1] && match[2] ? Number(match[2]) : stat.size - 1;
-      end = Math.min(end, stat.size - 1);
-      start = Math.max(start, 0);
-      if (start > end) {
+      const range = parseRange(req.headers.range, stat.size);
+      if (!range) {
         res.statusCode = 416;
         res.setHeader('Content-Range', `bytes */${stat.size}`);
         return res.end();
       }
       res.statusCode = 206;
-      res.setHeader('Content-Range', `bytes ${start}-${end}/${stat.size}`);
-      res.setHeader('Content-Length', end - start + 1);
-      fs.createReadStream(file, { start, end }).pipe(res);
+      res.setHeader('Content-Range', `bytes ${range.start}-${range.end}/${stat.size}`);
+      res.setHeader('Content-Length', range.end - range.start + 1);
+      fs.createReadStream(file, range).pipe(res);
     });
   };
 

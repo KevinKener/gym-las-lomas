@@ -1,10 +1,11 @@
 node_modules/
-dist/
+/dist/
 .env
 public/catalog.json
-qr/
-videos/
-media/
+/qr/
+/videos/
+/media/
 *.log
 .gstack/
 .claude/settings.local.json
+.wrangler/

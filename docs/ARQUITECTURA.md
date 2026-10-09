@@ -39,6 +39,9 @@ flowchart LR
 | `src/main.ts` | UI: inicio con grupos musculares, listas, recientes, reproductor, historial (RN-19) |
 | `src/styles.css` | Estilos mobile first, tema oscuro |
 | `vite.config.ts` | En desarrollo sirve la carpeta de videos con soporte de Range; en el build la copia si `COPY_VIDEOS=1` |
+| `src/range.ts` | Interpreta pedidos parciales de video (`Range`). Puro, con tests. Lo usan el servidor de desarrollo y la función de Pages |
+| `functions/videos/[[path]].ts` | Función de Cloudflare Pages: responde 206 a pedidos parciales de `/videos/*` (D-10) |
+| `public/404.html` | Página de "no encontrado" con la marca |
 | `public/_headers` | Caché en Cloudflare: `catalog.json` sin caché, assets inmutables, videos 7 días |
 
 ## Contrato de `catalog.json`
@@ -112,6 +115,17 @@ que queda versionado y es fácil de revisar. Las subcarpetas siguen funcionando 
 **D-09 · Fuente incluida en la web.** Oswald se sirve desde el mismo sitio (`@fontsource/oswald`, solo latin 500 y 600,
 unos 25 KB) en lugar de Google Fonts: carga más rápido y no le pasa datos de los socios a terceros (RN-02).
 Ver `docs/MARCA.md`.
+
+**D-10 · Función para pedidos parciales de video.** Cloudflare Pages responde siempre el archivo completo (200)
+aunque se pida un fragmento (`Range`). Safari en iPhone no reproduce video si el servidor no responde 206.
+Una función de Pages en `/videos/*` pide el archivo al almacenamiento de Pages y devuelve solo el fragmento.
+Los videos pesan menos de 5 MB, así que entran en memoria sin problema. El plan gratuito permite 100.000 pedidos por día,
+y con 10 a 12 socios por turno el uso no llega al 1 %. Descartado: R2 con dominio público, que suma otro servicio,
+otra configuración y otro permiso del token para el mismo resultado.
+
+**D-11 · Pages "clásico".** La versión actual de wrangler intenta crear los proyectos nuevos en Workers. El proyecto
+se creó en Pages (`--force`, solo esa vez) para mantener la dirección `gymlaslomas.pages.dev` del QR.
+Los deploys siguientes van directo a Pages sin `--force`.
 
 **D-07 · Sin service worker en la v1.** Cachear videos offline complica las actualizaciones y ocupa
 espacio en el celular del socio. Queda en el roadmap.
