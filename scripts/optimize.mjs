@@ -3,6 +3,10 @@
 //
 //   npm run optimize                    -> usa RAW_VIDEOS_DIR y VIDEOS_DIR del .env
 //   npm run optimize -- <origen> <destino>
+//   npm run optimize -- <origen> <destino> --music <audio>
+//
+// Con --music se descarta el sonido original (por ejemplo, gente hablando) y se pone de fondo
+// un tramo de ese audio. Cada video usa un tramo distinto, elegido a partir de su nombre.
 //
 // Usa el ffmpeg del sistema si existe; si no, el que trae el proyecto (ffmpeg-static).
 // Los videos HDR del iPhone (HLG / PQ) se convierten a SDR para que se vean bien en cualquier celular.
@@ -15,7 +19,10 @@ import { loadEnv, VIDEO_EXTS } from './env.mjs';
 
 loadEnv();
 
-const [srcArg, outArg] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const musicAt = args.indexOf('--music');
+const MUSIC = musicAt >= 0 ? path.resolve(args.splice(musicAt, 2)[1] ?? '') : null;
+const [srcArg, outArg] = args;
 const SRC = path.resolve(srcArg || process.env.RAW_VIDEOS_DIR || '');
 const OUT = path.resolve(outArg || process.env.VIDEOS_DIR || 'media');
 
@@ -26,6 +33,10 @@ if (!FFMPEG || spawnSync(FFMPEG, ['-version']).error) {
 }
 if (!(srcArg || process.env.RAW_VIDEOS_DIR) || !fs.existsSync(SRC)) {
   console.error('✖ Indicá la carpeta de originales: npm run optimize -- <origen> <destino>');
+  process.exit(1);
+}
+if (MUSIC && !fs.existsSync(MUSIC)) {
+  console.error(`✖ No se encontró el audio de fondo: ${MUSIC}`);
   process.exit(1);
 }
 if (SRC === OUT) {
@@ -49,9 +60,39 @@ const SCALE = "scale='if(gt(iw,ih),-2,min(720,iw))':'if(gt(iw,ih),min(720,ih),-2
 const TONEMAP =
   'zscale=t=linear:npl=203,format=gbrpf32le,zscale=p=bt709,tonemap=hable:desat=0,zscale=t=bt709:m=bt709:r=tv,format=yuv420p';
 
+function probe(file) {
+  return spawnSync(FFMPEG, ['-hide_banner', '-i', file], { encoding: 'utf8' }).stderr;
+}
+
 function isHdr(file) {
-  const probe = spawnSync(FFMPEG, ['-hide_banner', '-i', file], { encoding: 'utf8' });
-  return /Video:.*(arib-std-b67|smpte2084)/.test(probe.stderr);
+  return /Video:.*(arib-std-b67|smpte2084)/.test(probe(file));
+}
+
+function duration(file) {
+  const [, h, m, sec] = probe(file).match(/Duration: (\d+):(\d+):([\d.]+)/) ?? [];
+  return h ? Number(h) * 3600 + Number(m) * 60 + Number(sec) : 0;
+}
+
+// Mismo nombre, mismo tramo: si se vuelve a convertir un video, la música no cambia.
+function musicOffset(name, videoSeconds, musicSeconds) {
+  const room = Math.floor(Math.max(0, musicSeconds - videoSeconds));
+  let hash = 0;
+  for (const c of name) hash = (hash * 31 + c.codePointAt(0)) >>> 0;
+  return room ? hash % room : 0;
+}
+
+const MUSIC_SECONDS = MUSIC ? duration(MUSIC) : 0;
+
+// Los iPhone graban además un audio espacial (apac) que ffmpeg no decodifica: se toma solo el primero.
+function audioArgs(file, rel) {
+  if (!MUSIC) return { inputs: [], map: ['-map', '0:v:0', '-map', '0:a:0?'], filter: [] };
+  const seconds = duration(file);
+  const fadeOut = Math.max(0, seconds - 0.6).toFixed(2);
+  return {
+    inputs: ['-ss', String(musicOffset(rel, seconds, MUSIC_SECONDS)), '-t', seconds.toFixed(2), '-i', MUSIC],
+    map: ['-map', '0:v:0', '-map', '1:a:0'],
+    filter: ['-af', `afade=t=in:d=0.3,afade=t=out:st=${fadeOut}:d=0.6`],
+  };
 }
 
 const files = [...walk(SRC)];
@@ -76,13 +117,15 @@ for (const [i, file] of files.entries()) {
   // Se escribe a un .part y se renombra al final: si se corta, no queda un video a medias.
   const partial = `${video}.part`;
   const filters = isHdr(file) ? `${TONEMAP},${SCALE}` : SCALE;
+  const audio = audioArgs(file, rel);
+  // Máximo 30 fps: el celular del profe graba a 60 y no suma nada para ver la técnica.
   const encode = spawnSync(
     FFMPEG,
-    ['-y', '-loglevel', 'error', '-i', file,
-      '-vf', filters, '-c:v', 'libx264', '-preset', 'slow', '-crf', '26',
+    ['-y', '-loglevel', 'error', '-i', file, ...audio.inputs, ...audio.map,
+      '-vf', filters, '-fpsmax', '30', '-c:v', 'libx264', '-preset', 'slow', '-crf', '26',
       '-pix_fmt', 'yuv420p', '-profile:v', 'high',
       '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709',
-      '-c:a', 'aac', '-b:a', '96k', '-ac', '1',
+      ...audio.filter, '-c:a', 'aac', '-b:a', '96k', '-ac', '1', '-ar', '44100',
       '-movflags', '+faststart', '-f', 'mp4', partial],
     { stdio: 'inherit' },
   );

@@ -63,8 +63,13 @@ D:\las lomas\          ← originales del profe (RAW_VIDEOS_DIR). NUNCA se modif
 D:\las lomas web\      ← lo que se publica (VIDEOS_DIR), lo genera npm run optimize
   peso muerto rumano.mp4
   peso muerto rumano.jpg
+D:\las lomas audio\       ← musica-gym.m4a: la música del gym sacada de los originales viejos
 contenido/categorias.json  ← en qué categoría va cada ejercicio (RN-07)
 ```
+
+Si un video tiene gente hablando en vez de música, se convierte con
+`npm run optimize -- <origen> <destino> --music "/mnt/d/las lomas audio/musica-gym.m4a"`:
+se descarta el sonido original y cada video lleva un tramo distinto de la música del gym.
 
 ## 3. Publicar una versión
 

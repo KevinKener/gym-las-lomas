@@ -53,6 +53,16 @@ test('RN-11: ignora palabras de relleno', () => {
   assert.deepEqual(names('press banca'), ['Press de banca plano']);
 });
 
+test('RN-11: con letras sueltas la "y" no es relleno (ejercicios "T Y", "Y")', () => {
+  const letters = buildIndex(['T con banda', 'T W', 'T W M Y', 'T Y', 'Trx remo', 'W piso', 'Y'], (n) => n, () => null);
+  const find = (q: string) => search(letters, q);
+  assert.deepEqual(find('t y'), ['T Y', 'T W M Y']);
+  assert.deepEqual(find('Y')[0], 'Y');
+  assert.deepEqual(find('t w m y'), ['T W M Y']);
+  assert.deepEqual(find('w')[0], 'W piso');
+  assert.deepEqual(marked('T Y', 't y'), ['T', 'Y']);
+});
+
 test('RN-11: todas las palabras tienen que coincidir', () => {
   assert.deepEqual(names('sentadilla mancuernas'), []);
 });

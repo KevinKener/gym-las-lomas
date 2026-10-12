@@ -31,7 +31,7 @@ flowchart LR
 | `scripts/catalog-lib.mjs` | Reglas puras del catálogo: nombres (RN-05), duplicados (RN-06), categorías (RN-07), formato (RN-10) |
 | `contenido/revisar.json` | Videos publicados pero pendientes de revisión, con su motivo y su nombre visible (RN-06) |
 | `contenido/categorias.json` | Categoría de cada ejercicio cuando los videos no están en subcarpetas (RN-07). Editable por el profe |
-| `scripts/optimize.mjs` | Convierte originales al formato de RN-10 y genera miniaturas. Respeta RN-09 |
+| `scripts/optimize.mjs` | Convierte originales al formato de RN-10 (máx. 30 fps) y genera miniaturas. Con `--music <audio>` reemplaza el sonido original por un tramo de ese audio. Respeta RN-09 |
 | `scripts/qr.mjs` | Genera el QR (corrección de errores H) y el cartel A4 |
 | `scripts/env.mjs` | Carga `.env` y define las extensiones aceptadas |
 | `src/search.ts` | Motor de búsqueda (RN-11, RN-12). Puro, sin DOM, cubierto por tests |

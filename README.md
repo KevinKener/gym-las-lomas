@@ -95,7 +95,7 @@ En WSL, una carpeta de Windows como `D:\videos` se escribe `/mnt/d/videos`.
 | `npm run dev` | Genera el catálogo y levanta el servidor de desarrollo (sirve los videos desde `VIDEOS_DIR`) |
 | `npm run check` | Typecheck + tests. Se corre en CI en cada push |
 | `npm test` | Tests (`node:test`, sin dependencias extra) |
-| `npm run optimize -- <origen> <destino>` | Convierte los videos a MP4 720p (HDR → SDR) y genera miniaturas. Nunca toca los originales |
+| `npm run optimize -- <origen> <destino>` | Convierte los videos a MP4 720p (HDR → SDR) y genera miniaturas. Nunca toca los originales. Con `--music <audio>` reemplaza el sonido (por ejemplo, voces) por música de fondo |
 | `npm run catalog` | Regenera `public/catalog.json` y muestra advertencias de contenido |
 | `npm run build` | Catálogo en modo estricto (falla con advertencias) + typecheck + build en `dist/` |
 | `npm run qr -- <url>` | Genera el QR y el cartel A4 para imprimir en `qr/` |

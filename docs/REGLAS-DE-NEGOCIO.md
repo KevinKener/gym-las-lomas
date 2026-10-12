@@ -85,7 +85,8 @@ La compresión siempre escribe en una carpeta distinta.
 - ignora tildes, mayúsculas y signos (`jalon` encuentra "Jalón al pecho");
 - acepta palabras incompletas y en cualquier orden (`bulg sent` encuentra "Sentadilla búlgara");
 - tolera errores de tipeo: 1 error en palabras de 4 a 6 letras y 2 errores desde 7 (`sentadila`);
-- ignora palabras de relleno (`de`, `con`, `la`, `el`, `al`, `y`…);
+- ignora palabras de relleno (`de`, `con`, `la`, `el`, `al`, `y`…), salvo si se escriben solo letras sueltas:
+  en `T Y` la "y" es parte del nombre del ejercicio;
 - exige que **todas** las palabras escritas coincidan con el nombre o la categoría;
 - busca también por categoría (`piernas` lista todo lo de Piernas), con menos prioridad que el nombre.
 

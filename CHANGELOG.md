@@ -2,6 +2,17 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [Sin publicar]
+
+291 ejercicios en 8 categorías.
+
+### Agregado
+- 104 ejercicios nuevos: sentadillas, estocadas, saltos, gemelos, planchas, bicho muerto, perro volador,
+  press Pallof, halos, ejercicios de letras (T, Y, W) y más. Con la música del gym de fondo, como el resto.
+
+### Cambiado
+- La búsqueda encuentra los ejercicios con letras sueltas: "T Y" ya no se confunde con "T W".
+
 ## [1.0.4] - 2026-10-09
 
 187 ejercicios en 8 categorías.

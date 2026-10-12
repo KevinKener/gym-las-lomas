@@ -71,9 +71,14 @@ function tokenScore(query: string, tokens: string[]): number {
   return best;
 }
 
-/** Palabras de la búsqueda sin las de relleno (si son todas de relleno, se usan igual). */
+/**
+ * Palabras de la búsqueda sin las de relleno (si son todas de relleno, se usan igual).
+ * Si son todas letras sueltas ("t y", "t w m y") se usan todas: son nombres de ejercicios
+ * con letras y la "y" ahí no es relleno (RN-11).
+ */
 function queryTerms(q: string): string[] {
   const all = q.split(' ');
+  if (all.every((t) => t.length === 1)) return all;
   const terms = all.filter((t) => !STOPWORDS.has(t));
   return terms.length ? terms : all;
 }
