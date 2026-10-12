@@ -6,6 +6,7 @@ Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Change
 
 ### Cambiado
 - La búsqueda entiende la "/" de los carteles como "o": "Dominadas / Dorsalera" muestra los dos.
+- "Nórdico negativo": se corrigió el nombre del archivo (sobraba un "(2)"). El socio ve lo mismo.
 
 ## [1.0.5] - 2026-10-12
 
