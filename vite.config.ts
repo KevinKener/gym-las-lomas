@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
-import { parseRange } from './src/range';
+import { parseRange } from './src/range.ts';
 
 const MIME: Record<string, string> = {
   '.mp4': 'video/mp4',

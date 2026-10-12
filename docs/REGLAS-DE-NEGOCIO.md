@@ -88,6 +88,8 @@ La compresión siempre escribe en una carpeta distinta.
 - ignora palabras de relleno (`de`, `con`, `la`, `el`, `al`, `y`…), salvo si se escriben solo letras sueltas:
   en `T Y` la "y" es parte del nombre del ejercicio;
 - exige que **todas** las palabras escritas coincidan con el nombre o la categoría;
+- la `/` significa "o", como en los carteles: `Dominadas / Dorsalera` busca cada parte por separado
+  y muestra los resultados de las dos;
 - busca también por categoría (`piernas` lista todo lo de Piernas), con menos prioridad que el nombre.
 
 **RN-11b · Resaltado.** En la lista se resalta la parte del nombre que coincide con lo escrito, para distinguir

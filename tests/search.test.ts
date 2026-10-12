@@ -67,6 +67,15 @@ test('RN-11: todas las palabras tienen que coincidir', () => {
   assert.deepEqual(names('sentadilla mancuernas'), []);
 });
 
+test('RN-11: "/" es "o", como en los carteles ("Dominadas / Dorsalera")', () => {
+  assert.deepEqual(names('remo/jalon'), ['Jalón al pecho', 'Remo con barra']);
+  assert.deepEqual(names('sentadilla bulgara / remo con barra').sort(), ['Remo con barra', 'Sentadilla búlgara']);
+  // Cada parte mantiene su puntaje: la coincidencia exacta va primero aunque esté en la segunda parte.
+  assert.equal(names('xyz / sentadilla con barra')[0], 'Sentadilla con barra');
+  assert.deepEqual(names('xyz/abc'), []);
+  assert.deepEqual(names(' / '), exercises.map((e) => e.name));
+});
+
 test('RN-11: busca por categoría', () => {
   assert.deepEqual(names('piernas'), [
     'Estocadas con mancuernas',

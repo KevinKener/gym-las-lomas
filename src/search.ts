@@ -83,14 +83,10 @@ function queryTerms(q: string): string[] {
   return terms.length ? terms : all;
 }
 
-/** Devuelve los ítems que coinciden, ordenados por relevancia. Query vacía = todos. */
-export function search<T>(index: SearchIndex<T>, query: string): T[] {
-  const q = normalize(query);
-  if (!q) return index.entries.map((e) => e.item);
-
-  const scored: { item: T; score: number }[] = [];
+function score<T>(index: SearchIndex<T>, q: string): Map<T, number> {
+  const scores = new Map<T, number>();
   for (const entry of index.entries) {
-    let score = 0;
+    let total = 0;
     let matchesAll = true;
     for (const term of queryTerms(q)) {
       const s = tokenScore(term, entry.tokens) || tokenScore(term, entry.categoryTokens) * 0.5;
@@ -98,16 +94,36 @@ export function search<T>(index: SearchIndex<T>, query: string): T[] {
         matchesAll = false;
         break;
       }
-      score += s;
+      total += s;
     }
     if (!matchesAll) continue;
-    if (entry.full.startsWith(q)) score += 3;
-    else if (entry.full.includes(q)) score += 1.5;
-    scored.push({ item: entry.item, score });
+    if (entry.full.startsWith(q)) total += 3;
+    else if (entry.full.includes(q)) total += 1.5;
+    scores.set(entry.item, total);
+  }
+  return scores;
+}
+
+/**
+ * Devuelve los ítems que coinciden, ordenados por relevancia. Query vacía = todos.
+ * En los carteles "/" significa "o" ("Dominadas / Dorsalera"): cada parte se busca por separado
+ * y se juntan los resultados, quedándose con el mejor puntaje de cada ejercicio (RN-11).
+ */
+export function search<T>(index: SearchIndex<T>, query: string): T[] {
+  const alternatives = query.split('/').map(normalize).filter(Boolean);
+  if (!alternatives.length) return index.entries.map((e) => e.item);
+
+  const best = new Map<T, number>();
+  for (const q of alternatives) {
+    for (const [item, s] of score(index, q)) best.set(item, Math.max(best.get(item) ?? 0, s));
   }
 
-  // sort es estable: a igual puntaje se mantiene el orden alfabético del catálogo.
-  return scored.sort((a, b) => b.score - a.score).map((s) => s.item);
+  // sort es estable y se recorre en el orden del catálogo: a igual puntaje queda el orden alfabético.
+  return index.entries
+    .filter((e) => best.has(e.item))
+    .map((e) => ({ item: e.item, score: best.get(e.item)! }))
+    .sort((a, b) => b.score - a.score)
+    .map((s) => s.item);
 }
 
 /**
