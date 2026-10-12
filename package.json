@@ -1,6 +1,6 @@
 {
   "name": "gym-las-lomas",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "private": true,
   "description": "Biblioteca de ejercicios en video de Gym Las Lomas. Se accede escaneando un QR, sin login.",
   "homepage": "https://gymlaslomas.pages.dev",

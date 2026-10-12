@@ -2,7 +2,9 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
-## [Sin publicar]
+## [1.0.6] - 2026-10-12
+
+291 ejercicios en 8 categorías.
 
 ### Cambiado
 - La búsqueda entiende la "/" de los carteles como "o": "Dominadas / Dorsalera" muestra los dos.
