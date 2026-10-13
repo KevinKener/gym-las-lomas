@@ -133,16 +133,23 @@ function rowHtml(ex: Exercise, query: string, showCategory = true): string {
       </li>`;
 }
 
+/**
+ * Las fotos de la primera fila de grupos son lo más grande que se ve al entrar (el LCP):
+ * se piden enseguida y con prioridad. El resto, recién cuando el socio scrollea.
+ */
+const TILES_ABOVE_FOLD = 4;
+const tileLoading = (i: number) => (i < TILES_ABOVE_FOLD ? 'fetchpriority="high"' : 'loading="lazy"');
+
 /** Grupos musculares con foto de portada y cantidad (en vez de mostrar los 190 de entrada). */
 function renderTiles() {
   ui.tiles.innerHTML = catalog.categories
-    .map((category) => {
+    .map((category, i) => {
       const items = catalog.exercises.filter((e) => e.category === category);
       const cover = items.find((e) => e.poster);
       return `
       <li>
         <a class="tile" href="#/c/${slug(category)}">
-          ${cover ? `<img class="tile-img" src="${mediaUrl(cover.poster!, cover.rev)}" alt="" loading="lazy" decoding="async">` : ''}
+          ${cover ? `<img class="tile-img" src="${mediaUrl(cover.poster!, cover.rev)}" alt="" ${tileLoading(i)} decoding="async">` : ''}
           <span class="tile-text">
             <span class="tile-name">${escapeHtml(category)}</span>
             <span class="tile-count">${items.length} ejercicios</span>
@@ -286,16 +293,35 @@ function showExercise(ex: Exercise) {
     // Si el navegador bloquea el autoplay, el usuario toca play.
   });
 
+  ui.related.hidden = true;
+  document.title = `${ex.name} · Gym Las Lomas`;
+  if (!ui.player.open) ui.player.showModal();
+  ui.player.scrollTop = 0;
+  pushRecent(ex.id);
+
+  // Los relacionados quedan debajo del video: se arman después de mostrar el reproductor,
+  // así el toque responde enseguida en celulares lentos. El video no se demora: iOS solo deja
+  // reproducir con sonido si play() se llama dentro del mismo toque.
+  const shown = ++playerSeq;
+  afterPaint(() => {
+    if (shown !== playerSeq) return; // ya se abrió otro ejercicio
+    renderRelated(ex);
+  });
+}
+
+let playerSeq = 0;
+
+/** Corre fn después del próximo cuadro pintado. */
+function afterPaint(fn: () => void) {
+  requestAnimationFrame(() => window.setTimeout(fn, 0));
+}
+
+function renderRelated(ex: Exercise) {
   const related = catalog.exercises.filter((e) => e.category && e.category === ex.category && e.id !== ex.id).slice(0, 10);
   ui.related.hidden = related.length === 0;
   ui.relatedTitle.textContent = `Más de ${ex.category ?? ''}`;
   ui.relatedRow.innerHTML = related.map(cardHtml).join('');
   ui.relatedRow.scrollLeft = 0;
-
-  document.title = `${ex.name} · Gym Las Lomas`;
-  if (!ui.player.open) ui.player.showModal();
-  ui.player.scrollTop = 0;
-  pushRecent(ex.id);
 }
 
 function applyPlaybackRate() {

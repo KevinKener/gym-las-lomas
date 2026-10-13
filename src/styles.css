@@ -719,6 +719,9 @@ a {
 .player-stage video {
   display: block;
   width: 100%;
+  /* Se reserva el lugar del video antes de que cargue (los videos son verticales, 9:16),
+     para que "Cámara lenta" y los relacionados no salten hacia abajo. Si alguno no lo es, usa el suyo */
+  aspect-ratio: auto 9 / 16;
   max-height: calc(100dvh - 160px);
   background: #000;
 }

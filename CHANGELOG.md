@@ -2,6 +2,13 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [Sin publicar]
+
+### Cambiado
+- Las fotos de los grupos musculares aparecen antes al entrar.
+- El reproductor ya no "salta" cuando termina de cargar el video: el botón de cámara lenta queda quieto.
+- Tocar un ejercicio abre el video un poco más rápido: los relacionados se arman después de mostrarlo.
+
 ## [1.0.6] - 2026-10-12
 
 291 ejercicios en 8 categorías.
