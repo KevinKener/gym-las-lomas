@@ -1,24 +1,31 @@
 # Roadmap
 
-## v1.0: Biblioteca de ejercicios ✅ (en curso)
+## v1.0: Biblioteca de ejercicios ✅
 
 - [x] Buscador tolerante por nombre y categoría
 - [x] Reproductor a pantalla completa, ejercicios relacionados, compartir
 - [x] Vistos recientemente
 - [x] Compresión de videos y miniaturas
 - [x] Generador de QR y cartel A4
-- [x] Cargar los videos reales del gym (190 ejercicios, 8 categorías)
+- [x] Cargar los videos reales del gym (190 ejercicios, 8 categorías; 403 y 9 categorías desde la v1.1)
 - [x] Definir URL definitiva y publicar → https://gymlaslomas.pages.dev (2026-10-09)
 - [ ] Imprimir y pegar carteles
 - [ ] Prueba con 5 socios reales y ajustar nombres según lo que escriben
 
-## v1.1: Ajustes después de la prueba
+## v1.1: Más contenido e interfaz renovada ✅ (2026-10-21)
+
+- [x] 112 ejercicios nuevos (403 en total) y la categoría "Elongación y automasaje"
+- [x] Inicio en bento con titular, animaciones fluidas y cámara lenta sobre el video
+- [x] Design system documentado ([DESIGN-SYSTEM.md](DESIGN-SYSTEM.md))
+
+## v1.2: Ajustes después de la prueba
 
 - ~~Resaltado de coincidencias, "¿Quisiste decir…?", cámara lenta, indicador de carga~~ (hecho)
 - Sinónimos de búsqueda (por ejemplo "pecho plano" → "Press de banca plano"), cargados desde un archivo simple
 - [x] Cloudflare Web Analytics activado: visitas, dispositivos, procedencia (2026-10-09)
 - Estadísticas anónimas propias: ejercicios más vistos y búsquedas sin resultado (para saber qué grabar o renombrar)
 - Iconos PNG para "agregar a inicio" en iPhone
+- Orden de la búsqueda con errores de tipeo: que "sentadila" muestre primero "Sentadilla" (hoy, con un error, todo cuenta como aproximado y se ordena alfabéticamente, RN-12)
 
 ## v2: Rutinas
 

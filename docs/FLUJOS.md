@@ -25,7 +25,7 @@ flowchart TD
     L -->|Compartir| N[Manda el link por WhatsApp]
 ```
 
-No se muestran los 190 ejercicios de entrada: el inicio ofrece buscar o elegir un grupo muscular, como las
+No se muestran los 403 ejercicios de entrada: el inicio ofrece buscar o elegir un grupo muscular, como las
 apps de entrenamiento de referencia. La lista completa está a un toque ("Ver todos los ejercicios").
 
 Reglas: RN-01, RN-03, RN-11 a RN-13, RN-18, RN-19.
