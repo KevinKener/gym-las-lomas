@@ -7,7 +7,7 @@ Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Change
 403 ejercicios en 9 categorías.
 
 ### Cambiado
-- Encabezado del inicio más ordenado: logo, titular y debajo "403 videos · 9 grupos musculares", todo alineado.
+- Encabezado del inicio más ordenado: logo, titular y debajo "403 videos · 9 grupos musculares", todo centrado.
 
 ## [1.1.0] - 2026-10-21
 

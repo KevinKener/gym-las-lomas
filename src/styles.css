@@ -135,11 +135,11 @@ input {
   margin: 0 auto;
 }
 
+/* Encabezado centrado, como un cartel: el logo es simétrico y se luce al medio */
 .top-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
 }
 
 .brand {
@@ -154,7 +154,8 @@ input {
 }
 
 .hero {
-  margin-top: 20px;
+  margin-top: 18px;
+  text-align: center;
 }
 
 .hero-title {
