@@ -2,7 +2,7 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
-## [Sin publicar]
+## [1.1.1] - 2026-10-21
 
 403 ejercicios en 9 categorías.
 
