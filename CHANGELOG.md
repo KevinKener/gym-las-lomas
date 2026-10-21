@@ -2,7 +2,9 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
-## [Sin publicar]
+## [1.1.2] - 2026-10-21
+
+403 ejercicios en 9 categorías.
 
 ### Cambiado
 - "Grupos musculares" pasa a llamarse "Grupos de ejercicios" en toda la web: el título de la grilla del inicio y la línea "403 videos · 9 grupos de ejercicios".
