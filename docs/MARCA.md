@@ -29,7 +29,8 @@ Blanco y negro, sin color de acento. La jerarquía se arma con grises.
 | Texto secundario | `#a3a3a3` |
 | Acento (chip activo, botones) | `#ffffff` con texto `#000000` |
 
-Están definidos como variables al principio de `src/styles.css`.
+Están definidos como variables al principio de `src/styles.css`. El sistema completo (tipografía, espacios,
+movimiento, componentes) está en `docs/DESIGN-SYSTEM.md`.
 
 ## Tipografía
 

@@ -1,5 +1,7 @@
+/* Design system de Gym Las Lomas: tokens. Qué es cada uno y cuándo usarlo: docs/DESIGN-SYSTEM.md.
+   Los componentes usan solo estos tokens: no se escriben colores, tamaños ni tiempos sueltos. */
 :root {
-  /* Marca Gym Las Lomas: blanco y negro, tipografía condensada (Oswald) */
+  /* Color (docs/MARCA.md): blanco y negro, sin acento de color. La jerarquía se arma con grises */
   --bg: #000;
   --surface: #121212;
   --surface-2: #1c1c1c;
@@ -9,12 +11,67 @@
   --muted: #a3a3a3;
   --accent: #fff;
   --on-accent: #000;
+  --text-on-photo: #d4d4d4; /* texto secundario sobre foto con degradé */
+  --highlight: rgb(255 255 255 / 0.2); /* parte del nombre que coincide con la búsqueda (RN-11b) */
+  --stage: #000; /* fondo del video: negro siempre, como un televisor */
+  --scrim-photo: linear-gradient(to top, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.65) 35%, transparent 65%);
+  --overlay-bg: rgb(0 0 0 / 0.35);
+  --overlay-strong: rgb(0 0 0 / 0.65); /* controles sobre el video: se leen sobre cualquier imagen */
+  --overlay-track: rgb(255 255 255 / 0.25);
+
+  /* Tipografía: Oswald para títulos, nombres y botones; sistema para leer y escribir */
   --font-display: 'Oswald', 'Arial Narrow', system-ui, sans-serif;
-  --radius: 14px;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  /* Escala de 7 tamaños. Cada componente elige el suyo por rol (tabla en docs/DESIGN-SYSTEM.md) */
+  --text-xs: 12px; /* etiquetas en mayúscula: categoría del reproductor, pie, subtítulo */
+  --text-sm: 13px; /* títulos de sección, cantidades, categoría en la lista */
+  --text-md: 15px; /* botones, textos de ayuda, nombres en tarjetas chicas */
+  --text-body: 16px; /* texto base y buscador: ≥ 16 px, el iPhone no hace zoom al escribir (RN-18) */
+  --text-lg: 18px; /* nombre del ejercicio en la lista */
+  --text-xl: 20px; /* nombres de grupo y del reproductor, títulos de estado */
+  --text-2xl: 26px; /* título de la categoría abierta, grupo destacado */
+  --text-display: 34px; /* titular del inicio: uno solo por pantalla */
+  --track-title: 0.02em;
+  --track-button: 0.06em;
+  --track-caps: 0.08em;
+  --track-label: 0.16em;
+  --track-brand: 0.28em;
+
+  /* Forma */
+  --radius-xs: 3px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 14px; /* tarjetas, filas, buscador: el radio de la marca */
+  --radius-pill: 999px;
+  --shadow-sticky: 0 1px 0 var(--border), 0 8px 16px -8px rgb(0 0 0 / 0.8);
+  --shadow-float: 0 8px 24px rgb(0 0 0 / 0.5);
+
+  /* Espacio */
   --gutter: 16px;
+  --gap: 8px;
+  --gap-grid: 10px;
   --max: 720px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Movimiento: corto y con sentido. Con "reducir movimiento" se apaga (ver cada componente) */
+  --dur-press: 0.12s; /* respuesta al toque */
+  --dur-state: 0.15s; /* cambios de estado: foco, buscador fijo */
+  --dur-enter: 0.22s; /* entrada del reproductor y del aviso */
+  --ease-enter: ease-out;
+  --dur-photo: 0.35s; /* la foto que se acerca al tocar una tarjeta */
+  --dur-morph: 0.32s; /* una tarjeta que se transforma en la pantalla siguiente */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1); /* frena suave al llegar */
+  --top-fade-range: 160px; /* cuánto scroll tarda el encabezado en desvanecerse */
+  --dur-spin: 0.8s;
+  --dur-pulse: 1.4s;
+
+  /* Capas */
+  --z-raised: 1; /* texto sobre la foto de la tarjeta */
+  --z-sticky: 2; /* encabezado del reproductor */
+  --z-search: 5; /* buscador fijo */
+  --z-toast: 20; /* aviso con "Deshacer" */
+
   color-scheme: dark;
 }
 
@@ -34,7 +91,7 @@ body {
   flex-direction: column;
   background: var(--bg);
   color: var(--text);
-  font: 16px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  font: var(--text-body)/1.4 var(--font-body);
 }
 
 p,
@@ -58,6 +115,13 @@ a {
   text-decoration: none;
 }
 
+/* Sin zoom por doble toque en lo que se toca (el pellizco sigue funcionando) */
+a,
+button,
+input {
+  touch-action: manipulation;
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -66,33 +130,96 @@ a {
 /* ---------- header ---------- */
 
 .top {
-  padding: calc(var(--safe-top) + 18px) var(--gutter) 2px;
+  padding: calc(var(--safe-top) + 14px) var(--gutter) 4px;
   max-width: var(--max);
   width: 100%;
   margin: 0 auto;
 }
 
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .brand {
   margin: 0;
   display: flex;
-  justify-content: center;
 }
 
 .logo {
-  width: min(62vw, 230px);
+  width: min(42vw, 168px);
   height: auto;
   color: var(--text);
 }
 
-.brand-sub {
-  margin-top: 4px;
-  text-align: center;
+/* Cantidad de videos: se completa al cargar el catálogo, sin mover nada (la altura la da el logo) */
+.stat {
   font-family: var(--font-display);
+  font-size: var(--text-xs);
   font-weight: 500;
-  font-size: 12px;
-  letter-spacing: 0.28em;
+  letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--muted);
+  text-align: right;
+}
+
+.stat-num {
+  display: block;
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--track-title);
+  color: var(--text);
+}
+
+.hero {
+  margin-top: 22px;
+}
+
+.no-hero .hero {
+  display: none;
+}
+
+.brand-sub {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--text-xs);
+  letter-spacing: var(--track-brand);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero-title {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: 1.02;
+  text-transform: uppercase;
+  letter-spacing: var(--track-title);
+  text-wrap: balance;
+}
+
+/* Al bajar, el encabezado se desvanece y se achica de a poco en vez de cortarse contra el buscador fijo.
+   Lo mueve el scroll (sin JavaScript); donde no hay soporte, queda como antes */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .top {
+      transform-origin: center top;
+      animation: top-compact linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 var(--top-fade-range);
+    }
+  }
+}
+
+@keyframes top-compact {
+  to {
+    opacity: 0;
+    transform: translateY(24px) scale(0.94);
+  }
 }
 
 /* ---------- buscador ---------- */
@@ -100,11 +227,11 @@ a {
 .search-bar {
   position: sticky;
   top: 0;
-  z-index: 5;
+  z-index: var(--z-search);
   padding: 12px var(--gutter) 10px;
   padding-top: max(12px, var(--safe-top));
   background: var(--bg); /* sólido: la lista no se ve "pasando por detrás" */
-  transition: box-shadow 0.15s;
+  transition: box-shadow var(--dur-state);
   max-width: var(--max);
   width: 100%;
   margin: 0 auto;
@@ -129,13 +256,13 @@ a {
   width: 100%;
   height: 54px;
   padding: 0 52px 0 48px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   border: 1.5px solid var(--border-control);
   background: var(--surface);
   color: var(--text);
-  font-size: 17px; /* >= 16px evita el zoom automático en iPhone */
+  font-size: var(--text-body); /* >= 16px evita el zoom automático en iPhone */
   outline: none;
-  transition: border-color 0.15s;
+  transition: border-color var(--dur-state);
   -webkit-appearance: none;
   appearance: none;
 }
@@ -158,7 +285,7 @@ a {
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--muted);
   display: grid;
@@ -171,7 +298,7 @@ a {
 }
 
 .search-bar.is-stuck {
-  box-shadow: 0 1px 0 var(--border), 0 8px 16px -8px rgb(0 0 0 / 0.8);
+  box-shadow: var(--shadow-sticky);
 }
 
 /* ---------- contenido ---------- */
@@ -186,9 +313,9 @@ a {
 
 .section-title {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: var(--text-sm);
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--muted);
   margin-bottom: 10px;
@@ -206,11 +333,12 @@ a {
 .view-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: var(--text-2xl);
   font-weight: 600;
   line-height: 1.1;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--track-title);
+  text-wrap: balance;
   outline: none;
 }
 
@@ -226,24 +354,86 @@ a {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: var(--gap-grid);
+  container-type: inline-size; /* la altura de las tarjetas sale del ancho de la grilla (cqi) */
+}
+
+/*
+ * Bento: el primer grupo (el primero de categorias.json) va destacado. En el celular ocupa las 2 columnas
+ * y es más alto; desde 600 px, con 3 columnas, ocupa 2 × 2. Si el último queda solo en su fila, va a lo ancho.
+ * Sin soporte de cqi (Safari < 16) las alturas se aproximan con aspect-ratio.
+ */
+.tiles > li {
+  aspect-ratio: 1 / 1.08;
+}
+
+.tiles > li:first-child {
+  grid-column: span 2;
+  aspect-ratio: 1.37 / 1;
+}
+
+.tiles > li:last-child:nth-child(even):not(:first-child) {
+  grid-column: 1 / -1;
+  aspect-ratio: 1.85 / 1;
+}
+
+@supports (height: 1cqi) {
+  .tiles > li {
+    --tile-h: calc((100cqi - var(--gap-grid)) / 2 * 1.08);
+    aspect-ratio: auto;
+    height: var(--tile-h);
+  }
+
+  .tiles > li:first-child {
+    aspect-ratio: auto;
+    height: calc(var(--tile-h) * 1.35);
+  }
+
+  .tiles > li:last-child:nth-child(even):not(:first-child) {
+    aspect-ratio: auto;
+  }
 }
 
 @media (min-width: 600px) {
   .tiles {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tiles > li:first-child {
+    grid-row: span 2;
+    aspect-ratio: 1 / 1.08;
+  }
+
+  .tiles > li:last-child:nth-child(even):not(:first-child) {
+    grid-column: auto;
+    aspect-ratio: 1 / 1.08;
+  }
+
+  @supports (height: 1cqi) {
+    .tiles > li {
+      --tile-h: calc((100cqi - 2 * var(--gap-grid)) / 3 * 1.08);
+    }
+
+    .tiles > li:first-child {
+      aspect-ratio: auto;
+      height: calc(var(--tile-h) * 2 + var(--gap-grid));
+    }
+
+    .tiles > li:last-child:nth-child(even):not(:first-child) {
+      aspect-ratio: auto;
+    }
   }
 }
 
 .tile {
   position: relative;
   display: block;
-  aspect-ratio: 1 / 1.08;
-  border-radius: var(--radius);
+  height: 100%;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
-  transition: transform 0.12s;
+  transition: transform var(--dur-press);
 }
 
 .tile:active {
@@ -258,6 +448,7 @@ a {
   object-fit: cover;
   object-position: center 30%;
   filter: grayscale(0.15) contrast(1.05);
+  transition: transform var(--dur-photo) var(--ease-out-soft);
 }
 
 .tile::after {
@@ -265,12 +456,12 @@ a {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgb(0 0 0 / 0.92) 0%, rgb(0 0 0 / 0.55) 35%, transparent 65%);
+  background: var(--scrim-photo);
 }
 
 .tile-text {
   position: absolute;
-  z-index: 1;
+  z-index: var(--z-raised);
   left: 12px;
   right: 12px;
   bottom: 10px;
@@ -280,32 +471,96 @@ a {
 
 .tile-name {
   font-family: var(--font-display);
-  font-size: 19px;
+  font-size: var(--text-xl);
   font-weight: 600;
   line-height: 1.1;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--track-title);
+  text-wrap: balance;
+}
+
+.tiles > li:first-child .tile-name {
+  font-size: var(--text-2xl);
+}
+
+.tile-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap);
+  margin-top: 2px;
 }
 
 .tile-count {
-  margin-top: 2px;
-  font-size: 13px;
-  color: #d4d4d4;
+  font-size: var(--text-sm);
+  color: var(--text-on-photo);
+}
+
+.tile-arrow {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  padding: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  transition: transform var(--dur-photo) var(--ease-out-soft);
+}
+
+/* Toque con vida: la foto se acerca dentro del marco y la flecha avanza */
+.tile:active .tile-img {
+  transform: scale(1.06);
+}
+
+.tile:active .tile-arrow {
+  transform: translateX(3px);
+}
+
+@media (hover: hover) {
+  .tile:hover .tile-img {
+    transform: scale(1.06);
+  }
+
+  .tile:hover .tile-arrow {
+    transform: translateX(3px);
+  }
+}
+
+/*
+ * Entrada al scrollear: lo que está más abajo sube con un fundido a medida que aparece.
+ * Las primeras tarjetas no se animan: son lo primero que se ve (LCP) y no pueden arrancar transparentes.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .tiles > li:nth-child(n + 4):not(.skeleton-tile),
+    .all-link {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
 }
 
 .all-link {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--gap);
   min-height: 56px;
   margin-top: 12px;
   padding: 0 16px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   border: 1.5px solid var(--border-control);
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: var(--text-body);
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--track-button);
   text-transform: uppercase;
 }
 
@@ -321,7 +576,7 @@ a {
 }
 
 .count {
-  font-size: 13px;
+  font-size: var(--text-sm);
   color: var(--muted);
   margin: 4px 2px 8px;
 }
@@ -331,7 +586,7 @@ a {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 8px;
+  gap: var(--gap);
 }
 
 .row {
@@ -339,11 +594,11 @@ a {
   align-items: center;
   gap: 14px;
   padding: 10px 12px 10px 10px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   background: var(--surface);
   border: 1px solid var(--border);
   min-height: 76px;
-  transition: background 0.12s, transform 0.12s;
+  transition: background var(--dur-press), transform var(--dur-press);
 }
 
 .row:active {
@@ -361,7 +616,7 @@ a {
   flex: none;
   width: 56px;
   height: 56px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   object-fit: cover;
   background: var(--surface-2);
 }
@@ -389,22 +644,22 @@ a {
 .row-name {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 18px;
+  font-size: var(--text-lg);
   line-height: 1.2;
   letter-spacing: 0.01em;
 }
 
 .row-name mark {
-  background: rgb(255 255 255 / 0.2);
+  background: var(--highlight);
   color: inherit;
-  border-radius: 3px;
+  border-radius: var(--radius-xs);
   padding: 0 1px;
 }
 
 .row-cat {
-  font-size: 13px;
+  font-size: var(--text-sm);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--track-caps);
   color: var(--muted);
 }
 
@@ -440,7 +695,7 @@ a {
   background: none;
   color: var(--text);
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: var(--text-md);
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -454,7 +709,7 @@ a {
 
 .toast {
   position: fixed;
-  z-index: 20;
+  z-index: var(--z-toast);
   left: 50%;
   bottom: calc(var(--safe-bottom) + 16px);
   transform: translateX(-50%);
@@ -464,19 +719,19 @@ a {
   justify-content: space-between;
   gap: 12px;
   padding: 6px 6px 6px 18px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   background: var(--text);
   color: var(--bg);
   font-weight: 600;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
-  animation: toast-in 0.2s ease-out;
+  box-shadow: var(--shadow-float);
+  animation: toast-in var(--dur-enter) var(--ease-enter);
 }
 
 .toast-action {
   min-height: 44px;
   padding: 0 14px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-display);
@@ -501,12 +756,21 @@ a {
   .toast {
     animation: none;
   }
+
+  .tile:active,
+  .row:active,
+  .tile:active .tile-img,
+  .tile:hover .tile-img,
+  .tile:active .tile-arrow,
+  .tile:hover .tile-arrow {
+    transform: none;
+  }
 }
 
 .recents-row,
 .related-row {
   display: flex;
-  gap: 10px;
+  gap: var(--gap-grid);
   overflow-x: auto;
   margin: 0 calc(var(--gutter) * -1);
   padding: 0 var(--gutter) 4px;
@@ -532,7 +796,7 @@ a {
 .card-thumb {
   width: 124px;
   height: 124px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   object-fit: cover;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -545,7 +809,7 @@ a {
 
 .card-name {
   font-family: var(--font-display);
-  font-size: 15px;
+  font-size: var(--text-md);
   font-weight: 500;
   line-height: 1.25;
   display: -webkit-box;
@@ -567,12 +831,53 @@ a {
 .state-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 20px;
+  font-size: var(--text-xl);
+  text-wrap: balance;
+}
+
+/* Carga inicial: la grilla de grupos en gris, para que con mala señal no salte la página al aparecer */
+.skeleton {
+  margin-top: 8px;
+}
+
+.skeleton-title {
+  width: 190px;
+  height: 13px;
+  margin: 3px 0 13px;
+  border-radius: var(--radius-xs);
+  background: var(--surface-2);
+}
+
+/* Mismo tamaño que la grilla real (9 grupos) y que "Ver todos": al cargar no se mueve nada */
+.skeleton-tile {
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  animation: pulse var(--dur-pulse) ease-in-out infinite;
+}
+
+.skeleton-link {
+  height: 56px;
+  margin-top: 12px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--border);
+}
+
+@keyframes pulse {
+  50% {
+    background: var(--surface-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-tile {
+    animation: none;
+  }
 }
 
 .state-text {
   color: var(--muted);
-  font-size: 15px;
+  font-size: var(--text-md);
   max-width: 34ch;
 }
 
@@ -580,13 +885,13 @@ a {
   margin-top: 8px;
   height: 44px;
   padding: 0 22px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   border: 0;
   background: var(--accent);
   color: var(--on-accent);
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--track-caps);
   text-transform: uppercase;
 }
 
@@ -596,7 +901,7 @@ a {
   border-radius: 50%;
   border: 3px solid var(--border);
   border-top-color: var(--accent);
-  animation: spin 0.8s linear infinite;
+  animation: spin var(--dur-spin) linear infinite;
 }
 
 @keyframes spin {
@@ -614,9 +919,9 @@ a {
   text-align: center;
   color: var(--muted);
   font-family: var(--font-display);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--track-caps);
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: var(--text-xs);
   padding: 16px var(--gutter) calc(var(--safe-bottom) + 20px);
 }
 
@@ -637,7 +942,7 @@ a {
 }
 
 .player[open] {
-  animation: slide-up 0.22s ease-out;
+  animation: slide-up var(--dur-enter) var(--ease-enter);
 }
 
 .player::backdrop {
@@ -651,19 +956,46 @@ a {
   }
 }
 
+/* Si se abrió tocando una foto, el video crece desde ella (main.ts): el resto de la pantalla solo aparece */
+.player.is-morphing[open] {
+  animation: fade-in var(--dur-enter) var(--ease-enter);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .player[open] {
     animation: none;
   }
 }
 
+/* View Transitions entre inicio y categoría: el nombre de la tarjeta se transforma en el título */
+::view-transition-group(view-title) {
+  animation-duration: var(--dur-morph);
+  animation-timing-function: var(--ease-out-soft);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-enter);
+}
+
+/* La animación no bloquea toques: un tap durante la transición llega a la pantalla nueva */
+::view-transition {
+  pointer-events: none;
+}
+
 .player-head {
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: var(--z-sticky);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--gap);
   padding: calc(var(--safe-top) + 10px) 8px 10px;
   background: var(--bg);
 }
@@ -672,7 +1004,7 @@ a {
   flex: none;
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   border: 0;
   background: var(--surface);
   display: grid;
@@ -692,38 +1024,96 @@ a {
 
 .player-cat {
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: var(--text-xs);
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--track-label);
   text-transform: uppercase;
   color: var(--muted);
 }
 
 .player-title {
   font-family: var(--font-display);
-  font-size: 21px;
+  font-size: var(--text-xl);
   font-weight: 600;
   line-height: 1.15;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--track-title);
+  text-wrap: balance;
 }
 
 .player-stage {
   position: relative;
-  background: #000;
+  background: var(--stage);
   display: grid;
   place-items: center;
   min-height: 220px;
 }
 
-.player-stage video {
+/*
+ * Marco del video: 9:16 (los videos son verticales) y del tamaño exacto del video, para que la cámara lenta
+ * quede sobre la imagen y no sobre las franjas negras. Se reserva antes de que cargue: nada salta.
+ * Mínimo 240 px de ancho: con el celular acostado se scrollea un poco, pero el video y sus controles se usan.
+ */
+.video-frame {
+  position: relative;
+  width: min(100%, max(calc((100vh - 160px) * 9 / 16), 240px)); /* navegadores sin dvh */
+  width: min(100%, max(calc((100dvh - 160px) * 9 / 16), 240px));
+  aspect-ratio: 9 / 16;
+}
+
+.video-frame video {
   display: block;
   width: 100%;
-  /* Se reserva el lugar del video antes de que cargue (los videos son verticales, 9:16),
-     para que "Cámara lenta" y los relacionados no salten hacia abajo. Si alguno no lo es, usa el suyo */
-  aspect-ratio: auto 9 / 16;
-  max-height: calc(100dvh - 160px);
-  background: #000;
+  height: 100%;
+  object-fit: contain;
+  background: var(--stage);
+}
+
+/* Cámara lenta (RN-19b): arriba a la derecha del video, lejos de los controles nativos.
+   Apagada es translúcida; prendida, blanca. El ícono de sin sonido avisa que en lenta no hay audio */
+.speed {
+  position: absolute;
+  z-index: var(--z-raised);
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 14px 0 12px;
+  border: 1px solid var(--overlay-track);
+  border-radius: var(--radius-pill);
+  background: var(--overlay-strong);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: var(--track-button);
+  text-transform: uppercase;
+  color: var(--text);
+  transition: background var(--dur-state), color var(--dur-state), border-color var(--dur-state);
+}
+
+.speed svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+.speed-rate {
+  color: var(--text-on-photo);
+  transition: color var(--dur-state);
+}
+
+.speed[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.speed[aria-pressed='true'] .speed-rate {
+  color: inherit;
 }
 
 .video-loading {
@@ -738,53 +1128,9 @@ a {
   width: 44px;
   height: 44px;
   border-width: 4px;
-  border-color: rgb(255 255 255 / 0.25);
-  border-top-color: #fff;
-  background: rgb(0 0 0 / 0.35);
-}
-
-.player-tools {
-  display: flex;
-  gap: 8px;
-  padding: 12px var(--gutter) 0;
-}
-
-.tool-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 16px;
-  border-radius: 999px;
-  border: 1.5px solid var(--border-control);
-  background: var(--surface);
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.tool-btn svg {
-  width: 20px;
-  height: 20px;
-}
-
-.tool-btn[aria-pressed='true'] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--on-accent);
-}
-
-.tool-rate {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  visibility: hidden; /* ocupa su lugar siempre: el botón no cambia de tamaño */
-}
-
-.tool-btn[aria-pressed='true'] .tool-rate {
-  visibility: visible;
+  border-color: var(--overlay-track);
+  border-top-color: var(--text);
+  background: var(--overlay-bg);
 }
 
 .sr-only {
@@ -819,7 +1165,7 @@ a {
 
 @media (min-width: 760px) {
   .player-stage {
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     margin: 0 var(--gutter);
   }

@@ -2,6 +2,32 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [Sin publicar]
+
+403 ejercicios en 9 categorías.
+
+### Agregado
+- Categoría nueva **Elongación y automasaje**, con 36 ejercicios de elongación y masaje con rolo o pelotita.
+- 76 ejercicios nuevos más: saltos (bound, hop, jump, pogo), skipping, técnica de carrera, equilibrio,
+  estocadas y sentadillas con barra, cuadricera, planchas en cajón, vuelos frontales y más.
+  Con la música del gym de fondo, como el resto.
+
+### Cambiado
+- "Peso muerto con mancuerna": se reemplazó el video por una toma nueva.
+- Si un grupo muscular queda solo en la última fila, ocupa todo el ancho en vez de dejar un hueco.
+- Los nombres largos de grupos y ejercicios cortan la línea de forma pareja.
+- Mientras cargan los ejercicios se ve la grilla de grupos en gris, en vez de un círculo girando.
+- Tocar dos veces rápido un botón ya no agranda la página.
+- Con "reducir movimiento" activado en el celular, las tarjetas no se achican al tocarlas.
+- Tamaños de letra más parejos en toda la web (de 11 tamaños distintos a 7).
+- Inicio renovado: titular "¿Qué te toca entrenar hoy?", la cantidad de videos arriba y una grilla con
+  "Piernas y glúteos" destacado. Cada grupo tiene una flecha para entrar.
+- Animaciones suaves: al tocar un grupo, su nombre se transforma en el título de la pantalla; al tocar un ejercicio,
+  el video crece desde su foto; las tarjetas y filas aparecen al bajar y el encabezado se desvanece al scrollear.
+  Si el celular tiene "reducir movimiento" activado, no hay animaciones.
+- Cámara lenta rediseñada: un botón compacto "Lenta 0,5×" sobre el video, arriba a la derecha, que se pone blanco
+  cuando está activa. Reemplaza al botón de abajo, que dejaba un espacio vacío.
+
 ## [1.0.7] - 2026-10-13
 
 291 ejercicios en 8 categorías.

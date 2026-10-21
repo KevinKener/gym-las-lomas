@@ -20,6 +20,9 @@ const ui = {
   viewTitle: byId('view-title'),
   searchBar: document.querySelector<HTMLElement>('.search-bar')!,
   top: document.querySelector<HTMLElement>('.top')!,
+  hero: byId('hero'),
+  stat: byId('stat'),
+  statNum: byId('stat-num'),
   recents: byId('recents'),
   recentsRow: byId('recents-row'),
   recentsClear: byId<HTMLButtonElement>('recents-clear'),
@@ -47,6 +50,7 @@ const ui = {
   playerTitle: byId('player-title'),
   playerCat: byId('player-cat'),
   video: byId<HTMLVideoElement>('video'),
+  videoFrame: byId('video-frame'),
   videoError: byId('video-error'),
   related: byId('related'),
   relatedTitle: byId('related-title'),
@@ -137,7 +141,7 @@ function rowHtml(ex: Exercise, query: string, showCategory = true): string {
  * Las fotos de la primera fila de grupos son lo más grande que se ve al entrar (el LCP):
  * se piden enseguida y con prioridad. El resto, recién cuando el socio scrollea.
  */
-const TILES_ABOVE_FOLD = 4;
+const TILES_ABOVE_FOLD = 3; // con el bento, el destacado y la primera fila
 const tileLoading = (i: number) => (i < TILES_ABOVE_FOLD ? 'fetchpriority="high"' : 'loading="lazy"');
 
 /** Grupos musculares con foto de portada y cantidad (en vez de mostrar los 190 de entrada). */
@@ -152,13 +156,18 @@ function renderTiles() {
           ${cover ? `<img class="tile-img" src="${mediaUrl(cover.poster!, cover.rev)}" alt="" ${tileLoading(i)} decoding="async">` : ''}
           <span class="tile-text">
             <span class="tile-name">${escapeHtml(category)}</span>
-            <span class="tile-count">${items.length} ejercicios</span>
+            <span class="tile-meta">
+              <span class="tile-count">${plural(items.length)}</span>
+              <svg class="tile-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
           </span>
         </a>
       </li>`;
     })
     .join('');
   ui.allCount.textContent = String(catalog.exercises.length);
+  ui.statNum.textContent = String(catalog.exercises.length);
+  ui.stat.hidden = false;
   ui.browse.hidden = catalog.categories.length === 0;
 }
 
@@ -175,6 +184,9 @@ function render() {
 
   // Encabezado de categoría / todos
   ui.viewHead.hidden = view.kind === 'home';
+  // El titular solo en el inicio. Al escribir se oculta: con el teclado abierto, el lugar es para los resultados
+  ui.hero.hidden = view.kind !== 'home' || searching;
+  document.documentElement.classList.remove('no-hero');
   ui.viewTitle.textContent = category ?? 'Todos los ejercicios';
 
   // Inicio: recientes + grupos musculares. Sin categorías no hay grupos.
@@ -284,7 +296,7 @@ function showExercise(ex: Exercise) {
   ui.playerCat.textContent = ex.category ?? '';
   ui.playerCat.hidden = !ex.category;
   ui.videoError.hidden = true;
-  ui.video.hidden = false;
+  ui.videoFrame.hidden = false;
 
   ui.video.poster = ex.poster ? mediaUrl(ex.poster, ex.rev) : '';
   ui.video.src = mediaUrl(ex.src, ex.rev);
@@ -295,7 +307,14 @@ function showExercise(ex: Exercise) {
 
   ui.related.hidden = true;
   document.title = `${ex.name} · Gym Las Lomas`;
-  if (!ui.player.open) ui.player.showModal();
+  const from = pendingMorph;
+  pendingMorph = null;
+  if (!ui.player.open) {
+    ui.player.classList.toggle('is-morphing', Boolean(from) && !reduceMotion.matches);
+    ui.player.showModal();
+    ui.player.scrollTop = 0; // antes de medir dónde termina el video
+    if (from && !reduceMotion.matches) morphStage(from);
+  }
   ui.player.scrollTop = 0;
   pushRecent(ex.id);
 
@@ -310,6 +329,79 @@ function showExercise(ex: Exercise) {
 }
 
 let playerSeq = 0;
+
+// ---------- transiciones ----------
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+/** Foto que el socio tocó para abrir un ejercicio: el video "crece" desde ahí. */
+let pendingMorph: DOMRect | null = null;
+const MORPH_MS = 320;
+const EASE_OUT_SOFT = 'cubic-bezier(0.22, 1, 0.36, 1)';
+
+/**
+ * El video crece desde la miniatura tocada hasta su lugar (con la forma de la miniatura al principio).
+ * Se hace a mano y no con View Transitions porque iOS solo reproduce con sonido si play() se llama
+ * en el mismo toque, y startViewTransition aplica el cambio un instante después.
+ */
+function morphStage(from: DOMRect) {
+  const stage = ui.videoFrame;
+  const to = stage.getBoundingClientRect();
+  if (!to.width || !to.height) return;
+  const scale = from.width / to.width;
+  const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+  const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+  // Al principio solo se ve un recorte con la proporción de la miniatura (cuadrada o casi)
+  const insetY = Math.max(0, (to.height - from.height / scale) / 2);
+  stage.animate(
+    [
+      { transform: `translate(${dx}px, ${dy}px) scale(${scale})`, clipPath: `inset(${insetY}px 0 round ${12 / scale}px)` },
+      { transform: 'none', clipPath: 'inset(0 round 0)' },
+    ],
+    { duration: MORPH_MS, easing: EASE_OUT_SOFT },
+  );
+  // La cámara lenta aparece cuando el video ya llegó a su lugar: achicada se vería como un punto
+  ui.slowmo.animate([{ opacity: 0 }, { opacity: 0, offset: 0.7 }, { opacity: 1 }], { duration: MORPH_MS });
+}
+
+const titleOfTile = (category: string) =>
+  ui.tiles.querySelector<HTMLElement>(`a[href="#/c/${slug(category)}"] .tile-name`);
+
+/** Elemento que hace de título de la vista: el de la categoría abierta o el nombre en su tarjeta del inicio. */
+function viewTitleEl(v: View, category: string | null): HTMLElement | null {
+  if (v.kind === 'category') return ui.viewTitle;
+  return v.kind === 'home' && category ? titleOfTile(category) : null;
+}
+
+/**
+ * Cambio entre inicio, categoría y todos con View Transitions: el nombre de la tarjeta tocada
+ * se transforma en el título de la categoría (y vuelve al tocar "atrás"). Sin soporte, cambia directo.
+ */
+function morphView(from: View, to: View, apply: () => void, skip: boolean) {
+  // Una navegación nueva corta la animación anterior (su cambio de pantalla se aplica igual)
+  activeTransition?.skipTransition();
+  if (skip || reduceMotion.matches || !document.startViewTransition) return apply();
+  const category = from.kind === 'category' ? from.category : to.kind === 'category' ? to.category : null;
+  const oldTitle = viewTitleEl(from, category);
+  oldTitle?.style.setProperty('view-transition-name', 'view-title');
+  let newTitle: HTMLElement | null = null;
+  const transition = document.startViewTransition(() => {
+    oldTitle?.style.removeProperty('view-transition-name');
+    apply();
+    newTitle = viewTitleEl(to, category);
+    newTitle?.style.setProperty('view-transition-name', 'view-title');
+  });
+  activeTransition = transition;
+  transition.ready.catch(() => {}); // si se corta, no es un error
+  transition.finished
+    .catch(() => {})
+    .finally(() => {
+      oldTitle?.style.removeProperty('view-transition-name');
+      newTitle?.style.removeProperty('view-transition-name');
+      if (activeTransition === transition) activeTransition = null;
+    });
+}
+
+let activeTransition: ViewTransition | null = null;
 
 /** Corre fn después del próximo cuadro pintado. */
 function afterPaint(fn: () => void) {
@@ -353,13 +445,13 @@ function setVideoLoading(loading: boolean) {
 function showVideoError() {
   if (!ui.video.getAttribute('src')) return;
   setVideoLoading(false);
-  ui.video.hidden = true;
+  ui.videoFrame.hidden = true;
   ui.videoError.hidden = false;
 }
 
 function retryVideo() {
   ui.videoError.hidden = true;
-  ui.video.hidden = false;
+  ui.videoFrame.hidden = false;
   ui.video.load();
   applyPlaybackRate();
   ui.video.play().catch(() => {});
@@ -394,9 +486,14 @@ function sameView(a: View, b: View) {
   return viewHash(a) === viewHash(b);
 }
 
-function syncRoute() {
+/**
+ * hasUAVisualTransition: el navegador ya animó el "atrás" (por ejemplo, deslizando el dedo en iOS).
+ * En ese caso no se suma otra animación encima.
+ */
+function syncRoute(e?: PopStateEvent) {
   const route = parseRoute(location.hash, catalog.categories);
   const ex = route.exerciseId ? exercisesById.get(route.exerciseId) : undefined;
+  if (!ex) pendingMorph = null; // el toque no abrió un video: que no quede una posición vieja
   if (ex) {
     showExercise(ex);
     return;
@@ -408,22 +505,28 @@ function syncRoute() {
   }
 
   const next = route.view ?? { kind: 'home' };
-  const changed = !sameView(next, view);
-  if (changed) {
-    scrollByView.set(viewHash(view), window.scrollY);
-    // Al cambiar de pantalla la búsqueda arranca de cero (salvo la que vino en el link, ?q=)
-    if (next.kind !== 'home' || view.kind !== 'home') ui.input.value = '';
-    view = next;
+  if (sameView(next, view)) {
+    render();
+    return;
   }
-  render();
-  if (changed) {
+  // El estado cambia en el momento (aunque la animación dibuje un instante después): si llega otro
+  // "atrás" durante la transición, se compara contra la vista nueva y la URL nunca queda desfasada (RN-19)
+  const from = view;
+  scrollByView.set(viewHash(from), window.scrollY);
+  // Al cambiar de pantalla la búsqueda arranca de cero (salvo la que vino en el link, ?q=)
+  if (next.kind !== 'home' || from.kind !== 'home') ui.input.value = '';
+  view = next;
+  morphView(from, next, () => {
+    render();
     // Volver con "atrás" deja la lista donde estaba; entrar a una pantalla nueva arranca arriba
     // (si venía scrolleado, el logo queda oculto y el título de la categoría justo debajo del buscador)
     const saved = scrollByView.get(viewHash(view));
     const headerHeight = ui.top.offsetHeight; // la barra es sticky: su offsetTop cambia, el logo no
     window.scrollTo(0, saved ?? (view.kind === 'home' ? 0 : Math.min(window.scrollY, headerHeight)));
+    // El foco va al título de la categoría o, al volver al inicio, a la tarjeta de la que se venía
     if (view.kind !== 'home') ui.viewTitle.focus({ preventScroll: true });
-  }
+    else if (from.kind === 'category') titleOfTile(from.category)?.closest('a')?.focus({ preventScroll: true });
+  }, Boolean((e as PopStateEvent & { hasUAVisualTransition?: boolean })?.hasUAVisualTransition));
 }
 
 function closePlayer() {
@@ -451,6 +554,8 @@ function bindEvents() {
     const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#/"]');
     if (!link) return;
     e.preventDefault();
+    const photo = link.querySelector('img');
+    pendingMorph = photo && link.getAttribute('href')!.startsWith('#/e/') ? photo.getBoundingClientRect() : null;
     navigate(link.getAttribute('href')!, { replace: ui.relatedRow.contains(link) });
   });
 
@@ -488,7 +593,7 @@ function bindEvents() {
   ui.video.addEventListener('error', showVideoError);
   ui.videoRetry.addEventListener('click', retryVideo);
 
-  window.addEventListener('popstate', syncRoute);
+  window.addEventListener('popstate', (e) => syncRoute(e));
 
   // Barra del buscador: fondo sólido siempre; una línea sutil cuando queda fija arriba
   new IntersectionObserver(([entry]) => ui.searchBar.classList.toggle('is-stuck', !entry.isIntersecting)).observe(ui.top);

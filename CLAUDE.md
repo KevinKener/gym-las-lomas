@@ -9,6 +9,7 @@ de su rutina. Sin login, sin backend. Es una propuesta real para un cliente: cal
 - Arquitectura, contrato de `catalog.json` y decisiones técnicas (`D-XX`): `docs/ARQUITECTURA.md`
 - Flujos de socio, profe/administrador y publicación: `docs/FLUJOS.md`
 - Identidad visual (logo, colores, tipografía): `docs/MARCA.md`. No inventar colores ni fuentes fuera de esa guía
+- Design system (tokens, componentes, checklist de UI): `docs/DESIGN-SYSTEM.md`. En el CSS se usan solo tokens
 - Qué viene después: `docs/ROADMAP.md`
 
 ## Comandos
