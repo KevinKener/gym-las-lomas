@@ -57,7 +57,7 @@ Si existe `categorias.json`, el catálogo avisa: videos sin categoría, nombres 
 Los filtros por categoría aparecen solo si existe al menos una.
 
 El orden en que se muestran las categorías es el de `categorias.json` (las que no figuran ahí van al final, en orden alfabético).
-Orden actual: Piernas y glúteos, Espalda, Pecho, Hombros, Bíceps, Tríceps, Core y Movilidad.
+Orden actual: Piernas y glúteos, Espalda, Pecho, Hombros, Bíceps, Tríceps, Core, Movilidad y Elongación y automasaje.
 
 **RN-08 · Solo contenido propio y aprobado.** Solo se publican videos grabados por los profes del gym
 y aprobados por la gerencia. No se publican videos de terceros (YouTube, Instagram, etc.).
