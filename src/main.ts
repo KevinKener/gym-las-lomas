@@ -22,7 +22,6 @@ const ui = {
   top: document.querySelector<HTMLElement>('.top')!,
   hero: byId('hero'),
   stat: byId('stat'),
-  statNum: byId('stat-num'),
   recents: byId('recents'),
   recentsRow: byId('recents-row'),
   recentsClear: byId<HTMLButtonElement>('recents-clear'),
@@ -166,8 +165,11 @@ function renderTiles() {
     })
     .join('');
   ui.allCount.textContent = String(catalog.exercises.length);
-  ui.statNum.textContent = String(catalog.exercises.length);
-  ui.stat.hidden = false;
+  const videos = catalog.exercises.length;
+  const groups = catalog.categories.length;
+  ui.stat.textContent =
+    `${videos} ${videos === 1 ? 'video' : 'videos'}` +
+    (groups ? ` · ${groups} ${groups === 1 ? 'grupo muscular' : 'grupos musculares'}` : '');
   ui.browse.hidden = catalog.categories.length === 0;
 }
 

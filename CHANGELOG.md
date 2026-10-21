@@ -2,6 +2,13 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [Sin publicar]
+
+403 ejercicios en 9 categorías.
+
+### Cambiado
+- Encabezado del inicio más ordenado: logo, titular y debajo "403 videos · 9 grupos musculares", todo alineado.
+
 ## [1.1.0] - 2026-10-21
 
 403 ejercicios en 9 categorías.
