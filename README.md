@@ -31,7 +31,7 @@
 Es la **biblioteca de ejercicios en video de Gym Las Lomas**. Al lado de cada cartel de rutina hay un **QR**: el socio
 lo escanea, escribe el nombre del ejercicio que lee en el cartel y mira cómo se hace, grabado por los profes del gym.
 
-**403 videos en 9 grupos musculares**, desde cualquier celular, sin instalar nada y sin crear una cuenta.
+**403 videos en 9 grupos de ejercicios**, desde cualquier celular, sin instalar nada y sin crear una cuenta.
 
 <table>
   <tr>
@@ -67,7 +67,7 @@ lo escanea, escribe el nombre del ejercicio que lee en el cartel y mira cómo se
 <table>
   <tr>
     <td width="50%" valign="top">
-      <img src="docs/readme/socio.svg" alt="Del cartel al video: el socio mira el cartel, escanea el QR, busca el ejercicio o elige un grupo muscular y mira el video, con cámara lenta si hace falta. Después puede volver a la lista o compartir el link." width="100%">
+      <img src="docs/readme/socio.svg" alt="Del cartel al video: el socio mira el cartel, escanea el QR, busca el ejercicio o elige un grupo de ejercicios y mira el video, con cámara lenta si hace falta. Después puede volver a la lista o compartir el link." width="100%">
     </td>
     <td width="50%" valign="top">
       <img src="docs/readme/contenido.svg" alt="Cómo llega un video a la web: el profe graba el ejercicio y nombra el archivo como en el cartel, el administrador lo convierte con la música del gym, el catálogo revisa nombres, categoría, formato y peso, y el administrador publica. Si hay avisos se corrige y se repite; si no, el mismo QR ya muestra lo nuevo." width="100%">
@@ -84,14 +84,14 @@ lo escanea, escribe el nombre del ejercicio que lee en el cartel y mira cómo se
 ## 📸 Así se ve
 
 <p align="center">
-  <img src="docs/readme/recorrido.gif" alt="Recorrido por la web: inicio, scroll por los grupos musculares, entrar a Espalda, abrir un video y activar la cámara lenta, volver y buscar una sentadilla escribiendo" width="300">
+  <img src="docs/readme/recorrido.gif" alt="Recorrido por la web: inicio, scroll por los grupos de ejercicios, entrar a Espalda, abrir un video y activar la cámara lenta, volver y buscar una sentadilla escribiendo" width="300">
 </p>
 
 <p align="center">
   <img src="docs/readme/celu-uso.png" alt="En el celular: inicio con el grupo destacado, búsqueda con lo escrito resaltado y video con el botón de cámara lenta" width="100%">
 </p>
 <p align="center">
-  <img src="docs/readme/celu-mas.png" alt="En el celular: lista de un grupo muscular, sugerencias cuando no hay resultados y vistos recientemente" width="100%">
+  <img src="docs/readme/celu-mas.png" alt="En el celular: lista de un grupo de ejercicios, sugerencias cuando no hay resultados y vistos recientemente" width="100%">
   <br><sub>📱 Pensada para el celular, dentro del gym y con una mano ocupada: botones grandes, letra legible y carga rápida con datos móviles.</sub>
 </p>
 
@@ -113,14 +113,14 @@ lo escanea, escribe el nombre del ejercicio que lee en el cartel y mira cómo se
 - ✅ Escanear el QR y empezar a buscar al instante, sin cuenta
 - ✅ Buscar por nombre, aunque escriba con errores, sin tildes o con las palabras en otro orden (`bulg sent` → *Sentadilla búlgara*)
 - ✅ Ver sugerencias ("¿Quisiste decir…?") cuando no hay resultados
-- ✅ Recorrer los 9 grupos musculares, cada uno con su buscador
+- ✅ Recorrer los 9 grupos de ejercicios, cada uno con su buscador
 - ✅ Mirar el video en loop y pasarlo a **cámara lenta** (se silencia la música, para que no se escuche distorsionada)
 - ✅ Volver a los **vistos recientemente**, que quedan solo en su celular y se pueden borrar con "Deshacer"
 - ✅ Compartir el link de un ejercicio (por WhatsApp o lo que use el celular)
 
 ### 🏋️ Profe
 - ✅ Grabar el video con el celular y nombrar el archivo como en el cartel
-- ✅ Decidir en qué grupo muscular va cada ejercicio, editando [`contenido/categorias.json`](contenido/categorias.json) sin tocar los videos
+- ✅ Decidir en qué grupo de ejercicios va cada ejercicio, editando [`contenido/categorias.json`](contenido/categorias.json) sin tocar los videos
 - ✅ Dejar un video "en revisión" (por ejemplo, dos tomas del mismo ejercicio) sin frenar la publicación
 
 ### 🛠️ Administrador
@@ -213,7 +213,7 @@ Abrí [http://localhost:5173](http://localhost:5173). En WSL, una carpeta de Win
 
 | Variable | Descripción |
 |----------|-------------|
-| `VIDEOS_DIR` | Carpeta con los videos convertidos que se publican. Las subcarpetas cuentan como grupo muscular |
+| `VIDEOS_DIR` | Carpeta con los videos convertidos que se publican. Las subcarpetas cuentan como grupo de ejercicios |
 | `RAW_VIDEOS_DIR` | Carpeta con los originales del profe. Solo la usa `npm run optimize` |
 | `VIDEO_BASE_URL` | Dónde se sirven los videos: `/videos/` (junto con la web) o la URL de un bucket |
 | `COPY_VIDEOS` | `1` copia los videos a `dist/videos` en el build |
@@ -309,7 +309,7 @@ src/
 └── assets/logo.svg      # Logo vectorial
 functions/videos/        # Función de Cloudflare Pages: video por partes para iPhone
 scripts/                 # Catálogo (catalog-lib.mjs es puro), conversión de videos y QR
-contenido/               # Grupos musculares y pendientes de revisión: los edita el gimnasio
+contenido/               # Grupos de ejercicios y pendientes de revisión: los edita el gimnasio
 tests/                   # Búsqueda, catálogo, rutas y rangos
 docs/                    # Reglas, flujos, arquitectura, marca, design system, roadmap y material del README
 .claude/                 # Skills, agentes y hook de Claude Code
@@ -328,12 +328,12 @@ Todo va por hash para funcionar en cualquier hosting estático.
 
 | URL | Descripción |
 |-----|-------------|
-| `/` · `#/` | Inicio: titular, buscador, vistos recientemente y grupos musculares |
-| `#/c/<grupo>` | Lista de un grupo muscular, con su propio buscador (por ejemplo `#/c/espalda`) |
+| `/` · `#/` | Inicio: titular, buscador, vistos recientemente y grupos de ejercicios |
+| `#/c/<grupo>` | Lista de un grupo de ejercicios, con su propio buscador (por ejemplo `#/c/espalda`) |
 | `#/todos` | Todos los ejercicios |
 | `#/e/<ejercicio>` | Video de un ejercicio, que se abre encima de la lista (RN-15) |
 | `/?q=<texto>` | Abre la web con la búsqueda hecha (RN-16) |
-| `/?cat=<Grupo>` | Abre un grupo muscular: sirve para QR por zona del gym (RN-16) |
+| `/?cat=<Grupo>` | Abre un grupo de ejercicios: sirve para QR por zona del gym (RN-16) |
 
 </details>
 

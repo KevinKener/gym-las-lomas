@@ -143,7 +143,7 @@ function rowHtml(ex: Exercise, query: string, showCategory = true): string {
 const TILES_ABOVE_FOLD = 3; // con el bento, el destacado y la primera fila
 const tileLoading = (i: number) => (i < TILES_ABOVE_FOLD ? 'fetchpriority="high"' : 'loading="lazy"');
 
-/** Grupos musculares con foto de portada y cantidad (en vez de mostrar los 190 de entrada). */
+/** Grupos de ejercicios con foto de portada y cantidad (en vez de mostrar los 190 de entrada). */
 function renderTiles() {
   ui.tiles.innerHTML = catalog.categories
     .map((category, i) => {
@@ -169,7 +169,7 @@ function renderTiles() {
   const groups = catalog.categories.length;
   ui.stat.textContent =
     `${videos} ${videos === 1 ? 'video' : 'videos'}` +
-    (groups ? ` · ${groups} ${groups === 1 ? 'grupo muscular' : 'grupos musculares'}` : '');
+    (groups ? ` · ${groups} ${groups === 1 ? 'grupo de ejercicios' : 'grupos de ejercicios'}` : '');
   ui.browse.hidden = catalog.categories.length === 0;
 }
 
@@ -191,7 +191,7 @@ function render() {
   document.documentElement.classList.remove('no-hero');
   ui.viewTitle.textContent = category ?? 'Todos los ejercicios';
 
-  // Inicio: recientes + grupos musculares. Sin categorías no hay grupos.
+  // Inicio: recientes + grupos de ejercicios. Sin categorías no hay grupos.
   ui.home.hidden = !showHome;
   ui.recents.hidden = !showHome || !renderRecents();
   if (showHome) {

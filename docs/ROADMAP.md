@@ -30,7 +30,7 @@
 ## v2: Rutinas
 
 Contexto del gimnasio (2026-10-09): hay 4 tipos de rutina (**fuerza, hipertrofia, funcional y principiante**).
-Cada cartel mezcla ejercicios de distintos grupos musculares y **las rutinas cambian cada 1 o 2 meses**.
+Cada cartel mezcla ejercicios de distintos grupos y **las rutinas cambian cada 1 o 2 meses**.
 Por eso el profe tiene que poder actualizarlas solo y en minutos, sin reimprimir QR: el QR de cada tipo de rutina
 queda fijo y lo que cambia es la lista de ejercicios detrás.
 

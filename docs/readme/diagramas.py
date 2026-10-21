@@ -141,7 +141,7 @@ def socio():
             ("web", "Atrás", ["Vuelve a la lista,", "a la misma altura."]),
             ("socio", "Compartir", ["Manda el link del", "ejercicio por WhatsApp."]),
         ],
-        "Del cartel al video: el socio mira el cartel, escanea el QR, busca el ejercicio o elige un grupo muscular y mira "
+        "Del cartel al video: el socio mira el cartel, escanea el QR, busca el ejercicio o elige un grupo de ejercicios y mira "
         "el video, con cámara lenta si hace falta. Después puede volver a la lista o compartir el link.",
     )
 
@@ -201,8 +201,8 @@ def banner():
 <text x="64" y="252" class="t-titulo">Biblioteca de ejercicios</text>
 <text x="66" y="296" class="t-sub">Escaneá el QR del cartel, buscá el ejercicio y mirá cómo se hace.</text>
 <rect x="64" y="318" width="132" height="32" rx="16" fill="#2a2a2a"/><text x="82" y="339" class="t-chip">403 videos</text>
-<rect x="206" y="318" width="214" height="32" rx="16" fill="#2a2a2a"/><text x="224" y="339" class="t-chip">9 grupos musculares</text>
-<rect x="430" y="318" width="160" height="32" rx="16" fill="#2a2a2a"/><text x="448" y="339" class="t-chip">Sin login ni app</text>
+<rect x="206" y="318" width="244" height="32" rx="16" fill="#2a2a2a"/><text x="224" y="339" class="t-chip">9 grupos de ejercicios</text>
+<rect x="460" y="318" width="160" height="32" rx="16" fill="#2a2a2a"/><text x="478" y="339" class="t-chip">Sin login ni app</text>
 <g transform="translate(40 0)">
 <g>{''.join(qr)}</g>
 <rect class="escaneo" x="758" y="146" width="142" height="4" rx="2" fill="#fff" opacity=".9"/>

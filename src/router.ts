@@ -1,6 +1,6 @@
 // Rutas de la web (RN-15, RN-16, RN-19). Todo por hash para funcionar en cualquier hosting estático.
 //
-//   #/            inicio: buscador, recientes y grupos musculares
+//   #/            inicio: buscador, recientes y grupos de ejercicios
 //   #/c/<slug>    lista de una categoría
 //   #/todos       lista completa
 //   #/e/<id>      reproductor (se abre encima de la vista anterior)

@@ -53,7 +53,7 @@ Escala de 7 tamaños más uno de titular. Cada componente usa el del rol que cum
 | `--text-md` | 15 px | Botones, textos de ayuda, nombres en tarjetas chicas | Oswald o sistema |
 | `--text-body` | 16 px | Texto base, "Ver todos" y buscador (≥ 16 px: el iPhone no hace zoom) | sistema |
 | `--text-lg` | 18 px | Nombre del ejercicio en la lista | Oswald 500 |
-| `--text-xl` | 20 px | Nombre del grupo muscular, del ejercicio en el reproductor y títulos de estado | Oswald 600 |
+| `--text-xl` | 20 px | Nombre del grupo de ejercicios, del ejercicio en el reproductor y títulos de estado | Oswald 600 |
 | `--text-2xl` | 26 px | Título de la categoría abierta, grupo destacado | Oswald 600 |
 | `--text-display` | 34 px | Titular del inicio ("¿Qué te toca entrenar hoy?"). Uno solo por pantalla | Oswald 600 |
 
@@ -120,7 +120,7 @@ fijo) · `--z-toast` (20, aviso con "Deshacer"). El reproductor es un `<dialog>`
 |---|---|---|---|
 | Buscador | `.search` | 54 px de alto, `--surface`, borde `--border-control`, ícono a la izquierda y "borrar" de 44 px | Foco: borde blanco |
 | Tarjeta de grupo | `.tile` | Foto + `--scrim-photo`, nombre `--text-xl`, cantidad y flecha blanca. Grilla bento: el primer grupo de `categorias.json` va destacado (2 columnas y más alto en el celular; 2 × 2 desde 600 px, con 3 columnas). Si la última queda sola, ocupa todo el ancho | Al tocar: escala 0,97, la foto se acerca y la flecha avanza |
-| Encabezado | `.top` | Logo centrado. En el inicio, debajo, el titular `--text-display` y una línea de datos ("403 videos · 9 grupos musculares", `--text-md` gris, con su altura reservada). Todo centrado, como un cartel; lo de abajo (buscador, grilla) va a lo ancho. El titular se oculta al escribir en el buscador (con el teclado abierto, el lugar es para los resultados) y no aparece en links directos a una categoría | Se desvanece al bajar |
+| Encabezado | `.top` | Logo centrado. En el inicio, debajo, el titular `--text-display` y una línea de datos ("403 videos · 9 grupos de ejercicios", `--text-md` gris, con su altura reservada). Todo centrado, como un cartel; lo de abajo (buscador, grilla) va a lo ancho. El titular se oculta al escribir en el buscador (con el teclado abierto, el lugar es para los resultados) y no aparece en links directos a una categoría | Se desvanece al bajar |
 | Fila de ejercicio | `.row` | Miniatura de 56 px, nombre `--text-lg` con resaltado, categoría y flecha. Mínimo 76 px de alto | Al tocar: `--surface-2` y escala 0,99 |
 | Tarjeta chica | `.card` | Miniatura de 124 px y nombre en 2 líneas como máximo. En carrusel horizontal (recientes y relacionados) | — |
 | Botón principal | `.btn` | Píldora blanca con texto negro, 44 px. Uno por pantalla como máximo (por ejemplo "Reintentar") | — |

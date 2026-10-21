@@ -36,7 +36,7 @@ flowchart LR
 | `scripts/env.mjs` | Carga `.env` y define las extensiones aceptadas |
 | `src/search.ts` | Motor de búsqueda (RN-11, RN-12). Puro, sin DOM, cubierto por tests |
 | `src/router.ts` | Rutas por hash: inicio, categoría, todos, ejercicio (RN-15, RN-16, RN-19). Puro, con tests |
-| `src/main.ts` | UI: inicio con grupos musculares, listas, recientes, reproductor, historial (RN-19) |
+| `src/main.ts` | UI: inicio con grupos de ejercicios, listas, recientes, reproductor, historial (RN-19) |
 | `src/styles.css` | Estilos mobile first, tema oscuro |
 | `vite.config.ts` | En desarrollo sirve la carpeta de videos con soporte de Range; en el build la copia si `COPY_VIDEOS=1` |
 | `src/range.ts` | Interpreta pedidos parciales de video (`Range`). Puro, con tests. Lo usan el servidor de desarrollo y la función de Pages |
@@ -69,7 +69,7 @@ Si cambia este contrato, hay que actualizar a la vez `src/types.ts`, `scripts/ca
 
 | URL | Qué muestra |
 |---|---|
-| `/#/` | Inicio: buscador, vistos recientemente, grupos musculares |
+| `/#/` | Inicio: buscador, vistos recientemente, grupos de ejercicios |
 | `/#/c/espalda` | Lista de una categoría (el buscador busca dentro) |
 | `/#/todos` | Lista completa |
 | `/#/e/remo-pendlay` | Reproductor del ejercicio, encima de la vista anterior |

@@ -5,10 +5,10 @@
 ```mermaid
 flowchart TD
     A[Socio frente al cartel de su rutina] --> B[Escanea el QR con la cámara]
-    B --> C[Inicio: buscador + vistos recientemente + grupos musculares]
+    B --> C[Inicio: buscador + vistos recientemente + grupos de ejercicios]
     C --> D{¿Cómo lo busca?}
     D -->|Escribe el nombre| E[Resultados de todo el catálogo mientras tipea]
-    D -->|Toca un grupo muscular| F[Lista del grupo: puede buscar dentro]
+    D -->|Toca un grupo de ejercicios| F[Lista del grupo: puede buscar dentro]
     D -->|Lo vio hace poco| G[Toca la tarjeta en recientes]
     D -->|Quiere ver todo| T[Ver todos los ejercicios]
     E --> H{¿Hay resultados?}
@@ -25,7 +25,7 @@ flowchart TD
     L -->|Compartir| N[Manda el link por WhatsApp]
 ```
 
-No se muestran los 403 ejercicios de entrada: el inicio ofrece buscar o elegir un grupo muscular, como las
+No se muestran los 403 ejercicios de entrada: el inicio ofrece buscar o elegir un grupo de ejercicios, como las
 apps de entrenamiento de referencia. La lista completa está a un toque ("Ver todos los ejercicios").
 
 Reglas: RN-01, RN-03, RN-11 a RN-13, RN-18, RN-19.

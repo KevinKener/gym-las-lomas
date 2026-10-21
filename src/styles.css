@@ -168,7 +168,7 @@ input {
   text-wrap: balance;
 }
 
-/* "403 videos · 9 grupos musculares": acompaña al titular. La altura de una línea queda reservada */
+/* "403 videos · 9 grupos de ejercicios": acompaña al titular. La altura de una línea queda reservada */
 .hero-meta {
   min-height: 1.4em;
   margin-top: 8px;
@@ -321,7 +321,7 @@ input {
   outline: none;
 }
 
-/* ---------- grupos musculares ---------- */
+/* ---------- grupos de ejercicios ---------- */
 
 .browse {
   margin-top: 8px;
