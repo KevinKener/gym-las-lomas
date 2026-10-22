@@ -2,6 +2,13 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [Sin publicar]
+
+### Cambiado
+- "Bisagra cruzada con disco" pasa de Piernas y glúteos a **Core**.
+- "Press militar sentado" pasa a llamarse **"Press militar sentado con mancuernas"**.
+- "Escapulares" pasa a llamarse **"Rechazos escapulares"**. Los links directos con el nombre anterior dejan de funcionar (RN-15).
+
 ## [1.1.2] - 2026-10-21
 
 403 ejercicios en 9 categorías.

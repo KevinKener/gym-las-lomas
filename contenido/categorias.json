@@ -1,6 +1,5 @@
 {
   "Piernas y glúteos": [
-    "bisagra cruzada con disco",
     "bisagra de cadera asimétrica con bastón",
     "bisagra de cadera bastón",
     "bisagra de cadera con disco en pared",
@@ -207,7 +206,6 @@
     "press plano unilateral"
   ],
   "Hombros": [
-    "escapulares",
     "escapulares + toco hombro",
     "face pull con mancuernas",
     "halo con disco",
@@ -223,11 +221,12 @@
     "press militar con pesa rusa",
     "press militar en media estocada",
     "press militar landmine",
-    "press militar sentado",
     "press militar sentado con barra",
+    "press militar sentado con mancuernas",
     "press militar unilateral",
     "push press",
     "push press landmine",
+    "rechazos escapulares",
     "remo alto mancuernas",
     "rotacion externa con banda",
     "rotacion interna piso",
@@ -293,6 +292,7 @@
     "bicho muerto",
     "bicho muerto con mancuernas",
     "bicho muerto con pelota",
+    "bisagra cruzada con disco",
     "bisagras",
     "bolita + empuje",
     "bolita con disco",
