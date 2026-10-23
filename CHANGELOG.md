@@ -2,6 +2,13 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [Sin publicar]
+
+### Cambiado
+- Ocho ejercicios de elongación suman **"(básico)"** al nombre: aductores planta planta, cuádriceps parado,
+  glúteo sentado, isquios unilateral sentado, mano trasnuca, manos atrás en TRX, colgado en TRX y abrazo codo.
+  Los links directos con el nombre anterior dejan de funcionar (RN-15).
+
 ## [1.1.3] - 2026-10-22
 
 403 ejercicios en 9 categorías.
