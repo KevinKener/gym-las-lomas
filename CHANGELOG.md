@@ -2,6 +2,18 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [1.1.5] - 2026-11-01
+
+428 ejercicios en 9 categorías.
+
+### Agregado
+- 26 ejercicios nuevos con la música del gym de fondo: 7 de Piernas y glúteos, 2 de Espalda, 5 de Hombros,
+  1 de Tríceps, 6 de Core, 2 de Movilidad y 3 de Elongación y automasaje.
+
+### Cambiado
+- "Peso muerto sumo mancuerna" se reemplaza por una toma nueva, **"Peso muerto sumo con mancuerna"**.
+  Los links directos con el nombre anterior dejan de funcionar (RN-15).
+
 ## [1.1.4] - 2026-10-23
 
 403 ejercicios en 9 categorías.
