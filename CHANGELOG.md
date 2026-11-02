@@ -2,7 +2,9 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
-## [Sin publicar]
+## [1.1.6] - 2026-11-02
+
+428 ejercicios en 9 categorías.
 
 ### Cambiado
 - "Y" pasa a llamarse **"Y con mancuernas"**. El link directo con el nombre anterior deja de funcionar (RN-15).
