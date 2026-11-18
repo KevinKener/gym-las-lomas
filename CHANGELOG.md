@@ -2,6 +2,11 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [Sin publicar]
+
+### Cambiado
+- "Serrucho bilateral alternado" pasa a llamarse **"Remo serrucho bilateral alternado"**. El link directo con el nombre anterior deja de funcionar (RN-15).
+
 ## [1.1.6] - 2026-11-02
 
 428 ejercicios en 9 categorías.
