@@ -2,7 +2,9 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
-## [Sin publicar]
+## [1.1.9] - 2026-11-24
+
+438 ejercicios en 9 categorías.
 
 ### Cambiado
 - Los curl martillo pasan a llamarse **"Curl de biceps martillo alternado"**, **"Curl de biceps martillo alternado sentado"**
