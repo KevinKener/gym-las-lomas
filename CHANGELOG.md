@@ -2,6 +2,14 @@
 
 Cambios visibles para el gimnasio y sus socios. Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 
+## [Sin publicar]
+
+### Agregado
+- 10 ejercicios nuevos con la música del gym de fondo: 5 de Piernas y glúteos (abducción y aducción
+  con tobillera y en polea, estocadas fijas + empuje mancuernas), 1 de Bíceps (curl de bíceps martillo)
+  y 4 de Core (ombligo a pared, plancha a plancha alta, plancha alta abro cierro piernas cajón,
+  plancha lateral sobre rodillas).
+
 ## [1.1.7] - 2026-11-18
 
 428 ejercicios en 9 categorías.
